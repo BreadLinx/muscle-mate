@@ -1,4 +1,4 @@
-import { Header } from "modules";
+import { Header } from "modules/SecondHeader";
 import { FC, ReactNode, useEffect } from "react";
 import styled from "styled-components";
 

@@ -1,5 +1,5 @@
-import { MainLayout } from "layouts/MainLayout";
-import { Post } from "modules";
+import { MainLayout } from "layouts/SecondMainLayout";
+import { Post } from "modules/Post";
 import { Flex } from "ui/Flex";
 import { useEffect, ChangeEvent, useState, useDeferredValue } from "react";
 import { usePosts } from "store";

@@ -5,7 +5,6 @@ import {
   Route,
 } from "react-router-dom";
 import {
-  HomePage,
   SettingsPage,
   SignupPage,
   LoginPage,
@@ -22,7 +21,6 @@ import { PrivateRoutes } from "modules/PrivateRoutes";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      {/* <Route path="/" element={<HomePage />} /> */}
       <Route path="/" element={<WorkoutsPage />} />
       <Route element={<PrivateRoutes />}>
         <Route path="/profile" element={<SettingsPage />} />
