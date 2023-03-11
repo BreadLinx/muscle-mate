@@ -4,8 +4,17 @@ import { MainLayout } from "layouts/MainLayout";
 
 export const WorkoutsPage = () => {
   return (
-    <MainLayout>
-      <WorkoutWeek></WorkoutWeek>
+    <MainLayout
+      mainLink={{
+        text: "Workouts",
+        path: "/",
+      }}
+      secondaryLink={{
+        text: "Set up plan",
+        path: "/setupplan",
+      }}
+    >
+      <WorkoutWeek />
     </MainLayout>
   );
 };

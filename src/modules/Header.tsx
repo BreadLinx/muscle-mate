@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { FC } from "react";
 
 const StyledHeader = styled.header`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   gap: 21px;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
 `;
@@ -31,11 +33,26 @@ const StyledSecondaryLink = styled(Link)`
   color: #828282;
 `;
 
-export const Header = () => {
+interface HeaderProps {
+  mainLink: {
+    text: string;
+    path: string;
+  };
+  secondaryLink?: {
+    text: string;
+    path: string;
+  };
+}
+
+export const Header: FC<HeaderProps> = ({ mainLink, secondaryLink }) => {
   return (
     <StyledHeader>
-      <StyledMainLink to="/">Workouts</StyledMainLink>
-      <StyledSecondaryLink to="/">Set up plan</StyledSecondaryLink>
+      <StyledMainLink to={mainLink.path}>{mainLink.text}</StyledMainLink>
+      {secondaryLink?.text && (
+        <StyledSecondaryLink to={secondaryLink.path}>
+          {secondaryLink.text}
+        </StyledSecondaryLink>
+      )}
     </StyledHeader>
   );
 };

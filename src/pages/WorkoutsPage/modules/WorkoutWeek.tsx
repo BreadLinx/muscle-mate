@@ -21,8 +21,8 @@ const StyledList = styled.ul`
 export const WorkoutWeek: FC<WorkoutWeekProps> = ({ children }) => {
   return (
     <StyledList>
-      <WorkoutDay day="Monday" group="Legs" state={DayStates.Active} />
-      <WorkoutDay day="Tuesday" group="Chest" state={DayStates.Done} />
+      <WorkoutDay day="Monday" group="Legs" />
+      <WorkoutDay day="Tuesday" group="Chest" />
       <WorkoutDay day="Wednesday" />
       <WorkoutDay day="Thursday" group="Back" />
       <WorkoutDay day="Friday" group="Arms" />

@@ -1,4 +1,4 @@
-import { Header } from "modules/SecondHeader";
+// import { Header } from "modules/SecondHeader";
 import { FC, ReactNode, useEffect } from "react";
 import styled from "styled-components";
 
@@ -20,7 +20,7 @@ export const SettingsLayout: FC<ISettingsLayout> = ({ children }) => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <StyledMain>{children}</StyledMain>
     </>
   );

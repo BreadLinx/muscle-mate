@@ -3,6 +3,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
+  useLocation,
 } from "react-router-dom";
 import {
   SettingsPage,
@@ -17,12 +18,26 @@ import { useEffect } from "react";
 import { getCookie, deleteCookie } from "utils/cookies";
 import { useAuth, usePosts } from "store";
 import { PrivateRoutes } from "modules/PrivateRoutes";
+import { SetupPage } from "pages/SetupPage";
+import { ExercisesPage } from "pages/ExercisesPage";
+import { FavoritesExercisesPage } from "pages/FavoritesExercisesPage";
+import { NutritionPage } from "pages/NutritionPage";
+import { ProfilePage } from "pages/ProfilePage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<WorkoutsPage />} />
-      <Route element={<PrivateRoutes />}>
+      <Route path="/setupplan" element={<SetupPage />} />
+
+      <Route path="/exercises" element={<ExercisesPage />} />
+      <Route path="/favorites" element={<FavoritesExercisesPage />} />
+
+      <Route path="/nutrition" element={<NutritionPage />} />
+
+      <Route path="/profile" element={<ProfilePage />} />
+
+      {/* <Route element={<PrivateRoutes />}>
         <Route path="/profile" element={<SettingsPage />} />
         <Route path="/favorites" element={<ExercicesPage />} />
         <Route path="/workouts" element={<WorkoutsPage />} />
@@ -32,7 +47,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginPage />} />
       <Route path="/exercices" element={<ExercicesPage />} />
       <Route path="/addexercise" element={<AddExercisePage />} />
-      <Route path="*" element={<p>404</p>} />
+      <Route path="*" element={<p>404</p>} /> */}
     </>,
   ),
 );
@@ -41,15 +56,15 @@ export const App = () => {
   const { getMe, setUserAuthorizedFalse } = useAuth(state => state);
   const getPosts = usePosts(state => state.getPosts);
 
-  useEffect(() => {
-    getPosts(0);
+  // useEffect(() => {
+  //   getPosts(0);
 
-    if (getCookie("authToken")) {
-      getMe();
-    } else {
-      setUserAuthorizedFalse();
-    }
-  }, []);
+  //   if (getCookie("authToken")) {
+  //     getMe();
+  //   } else {
+  //     setUserAuthorizedFalse();
+  //   }
+  // }, []);
 
   return <RouterProvider router={router} />;
 };
