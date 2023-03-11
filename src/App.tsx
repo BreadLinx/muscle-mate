@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+} from "react-router-dom";
+import {
+  HomePage,
+  SettingsPage,
+  SignupPage,
+  LoginPage,
+  ExercicesPage,
+  WorkoutsPage,
+  WorkoutPage,
+  AddExercisePage,
+} from "pages";
+import { useEffect } from "react";
+import { getCookie, deleteCookie } from "utils/cookies";
+import { useAuth, usePosts } from "store";
+import { PrivateRoutes } from "modules/PrivateRoutes";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      {/* <Route path="/" element={<HomePage />} /> */}
+      <Route path="/" element={<WorkoutsPage />} />
+      <Route element={<PrivateRoutes />}>
+        <Route path="/profile" element={<SettingsPage />} />
+        <Route path="/favorites" element={<ExercicesPage />} />
+        <Route path="/workouts" element={<WorkoutsPage />} />
+        <Route path="/workouts/:day" element={<WorkoutPage />} />
+      </Route>
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/exercices" element={<ExercicesPage />} />
+      <Route path="/addexercise" element={<AddExercisePage />} />
+      <Route path="*" element={<p>404</p>} />
+    </>,
+  ),
+);
 
-export default App;
+export const App = () => {
+  const { getMe, setUserAuthorizedFalse } = useAuth(state => state);
+  const getPosts = usePosts(state => state.getPosts);
+
+  useEffect(() => {
+    getPosts(0);
+
+    if (getCookie("authToken")) {
+      getMe();
+    } else {
+      setUserAuthorizedFalse();
+    }
+  }, []);
+
+  return <RouterProvider router={router} />;
+};
