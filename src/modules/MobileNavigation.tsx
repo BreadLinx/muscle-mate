@@ -12,6 +12,9 @@ const StyledBottomNavigation = styled(BottomNavigation)`
   bottom: 0;
   left: 0;
   background-color: #303030 !important;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+  height: unset !important;
 `;
 
 export const MobileNavigation = () => {
