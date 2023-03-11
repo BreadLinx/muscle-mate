@@ -3,8 +3,8 @@ import React from "react";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import SportsGymnasticsIcon from "@mui/icons-material/SportsGymnastics";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import DinnerDiningIcon from "@mui/icons-material/DinnerDining";
 
 const StyledBottomNavigation = styled(BottomNavigation)`
   width: 100vw;
@@ -37,9 +37,9 @@ export const MobileNavigation = () => {
         icon={<SportsGymnasticsIcon />}
       />
       <BottomNavigationAction
-        label="Favorites"
-        value="favorites"
-        icon={<FavoriteBorderIcon />}
+        label="Nutrition"
+        value="nutrition"
+        icon={<DinnerDiningIcon />}
       />
       <BottomNavigationAction
         label="Profile"

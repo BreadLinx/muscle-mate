@@ -8,7 +8,7 @@ interface MainLayoutProps {
 }
 
 const StyledMain = styled.main`
-  height: calc(100vh - 149px);
+  height: calc(100vh - 164.6px);
   overflow-y: overlay;
 `;
 

@@ -40,7 +40,7 @@ const StyledDayText = styled.p`
   letter-spacing: 0em;
   text-align: left;
   position: absolute;
-  left: 40px;
+  left: 10.15%;
 `;
 
 const StyledGroupText = styled.p`
@@ -51,7 +51,7 @@ const StyledGroupText = styled.p`
   letter-spacing: 0em;
   text-align: left;
   position: absolute;
-  left: 260px;
+  left: 66%;
 `;
 
 interface WorkoutDayProps {
