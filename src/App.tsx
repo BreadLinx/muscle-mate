@@ -23,12 +23,14 @@ import { ExercisesPage } from "pages/ExercisesPage";
 import { FavoritesExercisesPage } from "pages/FavoritesExercisesPage";
 import { NutritionPage } from "pages/NutritionPage";
 import { ProfilePage } from "pages/ProfilePage";
+import { SetupDayPage } from "pages/SetupDayPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<WorkoutsPage />} />
       <Route path="/setupplan" element={<SetupPage />} />
+      <Route path="/setupplan/:day" element={<SetupDayPage />} />
 
       <Route path="/exercises" element={<ExercisesPage />} />
       <Route path="/favorites" element={<FavoritesExercisesPage />} />

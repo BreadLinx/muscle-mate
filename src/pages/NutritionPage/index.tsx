@@ -28,12 +28,7 @@ const StyledWaitingText = styled.div`
 
 export const NutritionPage = () => {
   return (
-    <MainLayout
-      mainLink={{
-        text: "Nutrition",
-        path: "/nutrition",
-      }}
-    >
+    <MainLayout title="Nutrition">
       <StyledContentBox>
         <StyledWaitingText>Coming in 202X</StyledWaitingText>
       </StyledContentBox>

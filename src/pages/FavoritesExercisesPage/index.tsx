@@ -4,11 +4,8 @@ import { MainLayout } from "layouts/MainLayout";
 export const FavoritesExercisesPage = () => {
   return (
     <MainLayout
-      mainLink={{
-        text: "Favorites",
-        path: "/favorites",
-      }}
-      secondaryLink={{
+      title="Favorites"
+      additionalLink={{
         text: "Exercises",
         path: "/exercises",
       }}

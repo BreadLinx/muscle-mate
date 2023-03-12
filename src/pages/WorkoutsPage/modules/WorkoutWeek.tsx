@@ -3,7 +3,12 @@ import { FC, ReactNode } from "react";
 import { WorkoutDay, DayStates } from "../components/WorkoutDay";
 
 interface WorkoutWeekProps {
-  children?: ReactNode;
+  week: {
+    name: string;
+    state: DayStates;
+    path: string;
+    group: string;
+  }[];
 }
 
 const StyledList = styled.ul`
@@ -18,16 +23,19 @@ const StyledList = styled.ul`
   list-style: none;
 `;
 
-export const WorkoutWeek: FC<WorkoutWeekProps> = ({ children }) => {
+export const WorkoutWeek: FC<WorkoutWeekProps> = ({ week }) => {
   return (
     <StyledList>
-      <WorkoutDay day="Monday" group="Legs" />
-      <WorkoutDay day="Tuesday" group="Chest" />
-      <WorkoutDay day="Wednesday" />
-      <WorkoutDay day="Thursday" group="Back" />
-      <WorkoutDay day="Friday" group="Arms" />
-      <WorkoutDay day="Saturday" />
-      <WorkoutDay day="Sunday" />
+      {week.map(item => {
+        return (
+          <WorkoutDay
+            key={item.name}
+            day={item.name}
+            group={item.group}
+            path={item.path}
+          />
+        );
+      })}
     </StyledList>
   );
 };

@@ -58,16 +58,18 @@ interface WorkoutDayProps {
   day: string;
   group?: string;
   state?: DayStates;
+  path: string;
 }
 
 export const WorkoutDay: FC<WorkoutDayProps> = ({
   day,
   group,
+  path,
   state = DayStates.Default,
 }) => {
   return (
     <StyledListElement state={state}>
-      <StyledLinkContainer to="/">
+      <StyledLinkContainer to={path}>
         <StyledDayText>{day}</StyledDayText>
         <StyledGroupText>{group}</StyledGroupText>
       </StyledLinkContainer>
