@@ -30,7 +30,7 @@ export const NutritionPage = () => {
   return (
     <MainLayout title="Nutrition">
       <StyledContentBox>
-        <StyledWaitingText>Coming in 202X</StyledWaitingText>
+        <StyledWaitingText>Coming soon</StyledWaitingText>
       </StyledContentBox>
     </MainLayout>
   );
