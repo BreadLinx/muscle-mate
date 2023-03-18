@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import {
   SettingsPage,
-  SignupPage,
   LoginPage,
   ExercicesPage,
   WorkoutsPage,
@@ -24,6 +23,9 @@ import { FavoritesExercisesPage } from "pages/FavoritesExercisesPage";
 import { NutritionPage } from "pages/NutritionPage";
 import { ProfilePage } from "pages/ProfilePage";
 import { SetupDayPage } from "pages/SetupDayPage";
+import { AnimatePresence } from "framer-motion";
+import { SignInPage } from "pages/SignInPage";
+import { SignUpPage } from "pages";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,8 +39,14 @@ const router = createBrowserRouter(
 
       <Route path="/nutrition" element={<NutritionPage />} />
 
-      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/signin" element={<SignInPage />} />
+      <Route path="/signup" element={<SignUpPage />} />
 
+      <Route path="/addexercise" element={<AddExercisePage />} />
+
+      <Route element={<PrivateRoutes />}>
+        <Route path="/profile" element={<ProfilePage />} />
+      </Route>
       {/* <Route element={<PrivateRoutes />}>
         <Route path="/profile" element={<SettingsPage />} />
         <Route path="/favorites" element={<ExercicesPage />} />
@@ -58,15 +66,17 @@ export const App = () => {
   const { getMe, setUserAuthorizedFalse } = useAuth(state => state);
   const getPosts = usePosts(state => state.getPosts);
 
-  // useEffect(() => {
-  //   getPosts(0);
+  useEffect(() => {
+    if (getCookie("authToken")) {
+      getMe();
+    } else {
+      setUserAuthorizedFalse();
+    }
+  }, []);
 
-  //   if (getCookie("authToken")) {
-  //     getMe();
-  //   } else {
-  //     setUserAuthorizedFalse();
-  //   }
-  // }, []);
-
-  return <RouterProvider router={router} />;
+  return (
+    <AnimatePresence mode="wait">
+      <RouterProvider router={router} />
+    </AnimatePresence>
+  );
 };

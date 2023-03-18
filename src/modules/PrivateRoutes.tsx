@@ -13,6 +13,6 @@ export const PrivateRoutes: FC = () => {
   return isUserAuthorized ? (
     <Outlet />
   ) : (
-    <Navigate state={{ from: location }} to="/login" />
+    <Navigate state={{ from: location }} to="/signin" />
   );
 };

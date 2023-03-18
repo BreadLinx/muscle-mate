@@ -14,7 +14,7 @@ const StyledListElement = styled.li`
       case DayStates.Default:
         return "#383838";
       case DayStates.Active:
-        return "#5F9E55";
+        return "rgba(97, 255, 0, 0.8)";
       case DayStates.Done:
         return "#447EB4";
     }

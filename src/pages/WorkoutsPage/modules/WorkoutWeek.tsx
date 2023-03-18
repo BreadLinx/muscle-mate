@@ -33,6 +33,7 @@ export const WorkoutWeek: FC<WorkoutWeekProps> = ({ week }) => {
             day={item.name}
             group={item.group}
             path={item.path}
+            state={item.state}
           />
         );
       })}

@@ -28,7 +28,7 @@ const StyledWaitingText = styled.div`
 
 export const NutritionPage = () => {
   return (
-    <MainLayout title="Nutrition">
+    <MainLayout title="Sports supplements" titleFont={29}>
       <StyledContentBox>
         <StyledWaitingText>Coming soon</StyledWaitingText>
       </StyledContentBox>

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { FC, ReactNode } from "react";
 import { Header } from "modules/Header";
 import { MobileNavigation } from "modules/MobileNavigation";
+// import { motion } from "framer-motion";
 
 interface MainLayoutProps {
   title: string;
@@ -12,6 +13,8 @@ interface MainLayoutProps {
   };
   arrowPath?: string;
   children?: ReactNode;
+  endIcon?: ReactNode;
+  onIconClick?: () => void;
 }
 
 const StyledMain = styled.main`
@@ -25,6 +28,8 @@ export const MainLayout: FC<MainLayoutProps> = ({
   titleFont,
   additionalLink,
   arrowPath,
+  endIcon,
+  onIconClick,
 }) => {
   return (
     <>
@@ -33,6 +38,8 @@ export const MainLayout: FC<MainLayoutProps> = ({
         additionalLink={additionalLink}
         arrowPath={arrowPath}
         titleFont={titleFont}
+        endIcon={endIcon}
+        onIconClick={onIconClick}
       />
       <StyledMain>{children}</StyledMain>
       <MobileNavigation />

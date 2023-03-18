@@ -19,6 +19,17 @@ export interface IUser {
   avatarUrl: string;
   createdAt: string;
   updatedAt: string;
+  favoriteExercices: string[];
+  role: string;
+  workouts: {
+    monday: { name: ""; exercices: [] };
+    tuesday: { name: ""; exercices: [] };
+    wednesday: { name: ""; exercices: [] };
+    thursday: { name: ""; exercices: [] };
+    friday: { name: ""; exercices: [] };
+    saturday: { name: ""; exercices: [] };
+    sunday: { name: ""; exercices: [] };
+  };
 }
 
 export interface IPost {

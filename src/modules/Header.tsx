@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 const StyledHeader = styled.header`
@@ -44,6 +44,16 @@ const StyledArrowButton = styled.button`
   }
 `;
 
+const StyledIconButton = styled.button`
+  width: 32px;
+  height: 32px;
+
+  & svg {
+    width: inherit !important;
+    height: inherit !important;
+  }
+`;
+
 interface HeaderProps {
   title: string;
   titleFont?: number;
@@ -52,6 +62,8 @@ interface HeaderProps {
     path: string;
   };
   arrowPath?: string;
+  endIcon?: ReactNode;
+  onIconClick?: () => void;
 }
 
 export const Header: FC<HeaderProps> = ({
@@ -59,6 +71,8 @@ export const Header: FC<HeaderProps> = ({
   titleFont,
   additionalLink,
   arrowPath,
+  endIcon,
+  onIconClick,
 }) => {
   const navigate = useNavigate();
 
@@ -79,6 +93,9 @@ export const Header: FC<HeaderProps> = ({
         <StyledSecondaryLink to={additionalLink.path}>
           {additionalLink.text}
         </StyledSecondaryLink>
+      )}
+      {endIcon && (
+        <StyledIconButton onClick={onIconClick}>{endIcon}</StyledIconButton>
       )}
     </StyledHeader>
   );

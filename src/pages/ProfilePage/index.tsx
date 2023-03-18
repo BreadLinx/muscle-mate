@@ -1,5 +1,12 @@
 import { MainLayout } from "layouts/MainLayout";
+import { useAuth } from "store";
 
 export const ProfilePage = () => {
-  return <MainLayout title="Profile"></MainLayout>;
+  const { name } = useAuth();
+
+  return (
+    <MainLayout title="Profile">
+      <p>{name}</p>
+    </MainLayout>
+  );
 };

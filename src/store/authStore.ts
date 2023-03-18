@@ -15,6 +15,17 @@ interface IAuthState {
   name: string;
   email: string;
   avatarUrl: string;
+  favoriteExercices: string[];
+  role: string;
+  workouts: {
+    monday: { name: string; exercices: string[] };
+    tuesday: { name: string; exercices: string[] };
+    wednesday: { name: string; exercices: string[] };
+    thursday: { name: string; exercices: string[] };
+    friday: { name: string; exercices: string[] };
+    saturday: { name: string; exercices: string[] };
+    sunday: { name: string; exercices: string[] };
+  } | null;
   signupRequestData: {
     request: boolean;
     error: boolean;
@@ -53,6 +64,9 @@ export const useAuth = create<IAuthState>((set, get) => ({
   name: "",
   email: "",
   avatarUrl: "",
+  favoriteExercices: [],
+  role: "",
+  workouts: null,
 
   signupRequestData: {
     request: false,
@@ -115,6 +129,9 @@ export const useAuth = create<IAuthState>((set, get) => ({
       name: response.userData.name,
       email: response.userData.email,
       avatarUrl: `${SERVER_URL}${response.userData.avatarUrl}`,
+      favoriteExercices: [...response.userData.favoriteExercices],
+      role: "",
+      workouts: { ...response.userData.workouts },
 
       signupRequestData: {
         ...state.signupRequestData,
@@ -149,6 +166,7 @@ export const useAuth = create<IAuthState>((set, get) => ({
       name: response.userData.name,
       email: response.userData.email,
       avatarUrl: `${SERVER_URL}${response.userData.avatarUrl}`,
+
       loginRequestData: {
         ...state.loginRequestData,
         request: false,
@@ -173,45 +191,59 @@ export const useAuth = create<IAuthState>((set, get) => ({
   },
 
   getMe: async () => {
-    set({
-      getMeRequestData: {
-        request: true,
-        success: false,
-        error: false,
-        errorMessage: "",
-      },
-    });
+    try {
+      set({
+        getMeRequestData: {
+          request: true,
+          success: false,
+          error: false,
+          errorMessage: "",
+        },
+      });
 
-    const response = (await getMeRequest()) as any;
+      const response = (await getMeRequest()) as any;
 
-    if (
-      (!response.success && response.message === "invalid signature") ||
-      response.message === "jwt malformed"
-    ) {
+      if (
+        (!response.success && response.message === "invalid signature") ||
+        response.message === "jwt malformed"
+      ) {
+        set(state => ({
+          isUserAuthorized: false,
+          getMeRequestData: {
+            ...state.getMeRequestData,
+            request: false,
+            error: true,
+            errorMessage: response.message,
+          },
+        }));
+        deleteCookie("authToken");
+        return;
+      }
+
+      set(state => ({
+        isUserAuthorized: true,
+        name: response.userData.name,
+        email: response.userData.email,
+        avatarUrl: `${SERVER_URL}${response.userData.avatarUrl}`,
+        workouts: { ...response.userData.workouts },
+        favoriteExercices: [...response.userData.favoriteExercices],
+        getMeRequestData: {
+          ...state.getMeRequestData,
+          request: false,
+          success: true,
+        },
+      }));
+    } catch (err) {
       set(state => ({
         isUserAuthorized: false,
         getMeRequestData: {
           ...state.getMeRequestData,
           request: false,
           error: true,
-          errorMessage: response.message,
+          errorMessage: "fail",
         },
       }));
-      deleteCookie("authToken");
-      return;
     }
-
-    set(state => ({
-      isUserAuthorized: true,
-      name: response.userData.name,
-      email: response.userData.email,
-      avatarUrl: `${SERVER_URL}${response.userData.avatarUrl}`,
-      getMeRequestData: {
-        ...state.getMeRequestData,
-        request: false,
-        success: true,
-      },
-    }));
   },
 
   signout: async () => {

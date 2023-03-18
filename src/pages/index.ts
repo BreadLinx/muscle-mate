@@ -1,6 +1,6 @@
 import { HomePage } from "pages/HomePage";
 import { SettingsPage } from "pages/SettingsPage";
-import { SignupPage } from "pages/SignupPage";
+import { SignUpPage } from "pages/SignUpPage";
 import { LoginPage } from "pages/LoginPage";
 import { ExercicesPage } from "pages/SecondExercicesPage";
 import { WorkoutsPage } from "pages/WorkoutsPage";
@@ -10,7 +10,7 @@ import { AddExercisePage } from "pages/AddExercisePage";
 export {
   HomePage,
   SettingsPage,
-  SignupPage,
+  SignUpPage,
   LoginPage,
   ExercicesPage,
   WorkoutsPage,
