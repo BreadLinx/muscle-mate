@@ -1,12 +1,11 @@
 import { MainLayout } from "layouts/MainLayout";
-import { useAuth } from "store";
+
+import { ProfileComponent } from "./modules/ProfileComponent";
 
 export const ProfilePage = () => {
-  const { name } = useAuth();
-
   return (
     <MainLayout title="Profile">
-      <p>{name}</p>
+      <ProfileComponent />
     </MainLayout>
   );
 };

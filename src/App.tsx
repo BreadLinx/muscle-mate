@@ -15,7 +15,7 @@ import {
 } from "pages";
 import { useEffect } from "react";
 import { getCookie, deleteCookie } from "utils/cookies";
-import { useAuth, usePosts } from "store";
+import { useAuth } from "store/authStore";
 import { PrivateRoutes } from "modules/PrivateRoutes";
 import { SetupPage } from "pages/SetupPage";
 import { ExercisesPage } from "pages/ExercisesPage";
@@ -27,6 +27,9 @@ import { AnimatePresence } from "framer-motion";
 import { SignInPage } from "pages/SignInPage";
 import { SignUpPage } from "pages";
 import styled from "styled-components";
+import { useExercises } from "store/exercisesStore";
+import { getExercisesRequest } from "utils/api";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -63,13 +66,13 @@ const router = createBrowserRouter(
   ),
 );
 
-const StyledMobileContainer = styled.div``;
-
 export const App = () => {
   const { getMe, setUserAuthorizedFalse } = useAuth(state => state);
-  const getPosts = usePosts(state => state.getPosts);
+  const getExercises = useExercises(state => state.getExercises);
 
   useEffect(() => {
+    getExercises();
+
     if (getCookie("authToken")) {
       getMe();
     } else {
@@ -77,9 +80,5 @@ export const App = () => {
     }
   }, []);
 
-  return (
-    <AnimatePresence mode="wait">
-      <RouterProvider router={router} />
-    </AnimatePresence>
-  );
+  return <RouterProvider router={router} />;
 };

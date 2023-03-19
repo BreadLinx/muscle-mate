@@ -131,10 +131,30 @@ const DrawerWrapper = styled.div`
   height: ${({ height }: DrawerWrapperProps) => `${height}px`};
 `;
 
+const StyledMainWrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+  width: 100%;
+`;
+
+const StyledLabel = styled.p`
+  font-family: "Inter";
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 23px;
+  letter-spacing: 0;
+  text-align: left;
+`;
+
 interface CommonSelectProps {
   drawerInitialList: string[];
   z?: number;
   placeholder: string;
+  label?: string;
+
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 type SelectPropsOneChoice = CommonSelectProps & {
@@ -154,11 +174,13 @@ export const Select: FC<SelectProps> = ({
   multichoice = false,
   required = false,
   placeholder,
+  label,
+
+  inputValue,
+  setInputValue,
 }) => {
   const [isDrawerOpened, setDrawerOpened] = useState(false);
   const [areBordersVisible, setBordersVisible] = useState(true);
-
-  const [inputValue, setInputValue] = useState("");
   const [inputValueArray, setInputValueArray] = useState<string[]>([]);
   const [drawerList, setDrawerList] = useState<
     { text: string; checked: boolean }[]
@@ -222,81 +244,84 @@ export const Select: FC<SelectProps> = ({
   }, [drawerInitialList, required]);
 
   return (
-    <SelectMainWrapper>
-      <StyledInputWrapper
-        bordersVisibility={areBordersVisible}
-        onClick={() => {
-          if (isDrawerOpened) {
+    <StyledMainWrapper>
+      {label && <StyledLabel>{label}</StyledLabel>}
+      <SelectMainWrapper>
+        <StyledInputWrapper
+          bordersVisibility={areBordersVisible}
+          onClick={() => {
+            if (isDrawerOpened) {
+              setDrawerOpened(prev => !prev);
+              setTimeout(() => {
+                setBordersVisible(true);
+              }, 155);
+
+              return;
+            }
             setDrawerOpened(prev => !prev);
-            setTimeout(() => {
-              setBordersVisible(true);
-            }, 155);
-
-            return;
-          }
-          setDrawerOpened(prev => !prev);
-          setBordersVisible(false);
-        }}
-      >
-        <motion.button
-          animate={isDrawerOpened ? "open" : "closed"}
-          transition={{ duration: 0.2 }}
-          variants={arrowVariants}
-          type="button"
-          style={{ outline: "none" }}
+            setBordersVisible(false);
+          }}
         >
-          <StyledExpandLessIcon />
-        </motion.button>
+          <motion.button
+            animate={isDrawerOpened ? "open" : "closed"}
+            transition={{ duration: 0.2 }}
+            variants={arrowVariants}
+            type="button"
+            style={{ outline: "none" }}
+          >
+            <StyledExpandLessIcon />
+          </motion.button>
 
-        <StyledInput placeholder={placeholder} readOnly value={inputValue} />
-      </StyledInputWrapper>
+          <StyledInput placeholder={placeholder} readOnly value={inputValue} />
+        </StyledInputWrapper>
 
-      <AnimatePresence>
-        {isDrawerOpened && (
-          <DrawerWrapper z={z} height={drawerHeight}>
-            <StyledDrawer
-              transition={{ duration: 0.2 }}
-              initial={{
-                y: "-100%",
-              }}
-              animate={{
-                y: 0,
-              }}
-              exit={{
-                y: "-100%",
-              }}
-            >
-              {!multichoice && !required && (
-                <StyledDrawerElement
-                  onClick={() => {
-                    handleClick("", -1);
-                  }}
-                  type="button"
-                >
-                  <StyledDrawerElementText>None</StyledDrawerElementText>
-                </StyledDrawerElement>
-              )}
-              {drawerList &&
-                drawerList.map((item, index) => {
-                  return (
-                    <StyledDrawerElement
-                      onClick={() => {
-                        handleClick(item.text, index);
-                      }}
-                      type="button"
-                      key={item.text}
-                      checked={item.checked}
-                    >
-                      <StyledDrawerElementText>
-                        {item.text}
-                      </StyledDrawerElementText>
-                    </StyledDrawerElement>
-                  );
-                })}
-            </StyledDrawer>
-          </DrawerWrapper>
-        )}
-      </AnimatePresence>
-    </SelectMainWrapper>
+        <AnimatePresence>
+          {isDrawerOpened && (
+            <DrawerWrapper z={z} height={drawerHeight}>
+              <StyledDrawer
+                transition={{ duration: 0.2 }}
+                initial={{
+                  y: "-100%",
+                }}
+                animate={{
+                  y: 0,
+                }}
+                exit={{
+                  y: "-100%",
+                }}
+              >
+                {!multichoice && !required && (
+                  <StyledDrawerElement
+                    onClick={() => {
+                      handleClick("", -1);
+                    }}
+                    type="button"
+                  >
+                    <StyledDrawerElementText>None</StyledDrawerElementText>
+                  </StyledDrawerElement>
+                )}
+                {drawerList &&
+                  drawerList.map((item, index) => {
+                    return (
+                      <StyledDrawerElement
+                        onClick={() => {
+                          handleClick(item.text, index);
+                        }}
+                        type="button"
+                        key={item.text}
+                        checked={item.checked}
+                      >
+                        <StyledDrawerElementText>
+                          {item.text}
+                        </StyledDrawerElementText>
+                      </StyledDrawerElement>
+                    );
+                  })}
+              </StyledDrawer>
+            </DrawerWrapper>
+          )}
+        </AnimatePresence>
+      </SelectMainWrapper>
+    </StyledMainWrapper>
   );
 };

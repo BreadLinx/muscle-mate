@@ -103,18 +103,12 @@ export const ExerciseCard: FC<ExerciseCardProps> = ({
     <StyledListElement
       layout
       initial={{
-        scale: 0.8,
-        opacity: 0,
-      }}
-      animate={{
-        scale: 1,
         opacity: 1,
       }}
       exit={{
-        scale: 0.8,
         opacity: 0,
       }}
-      transition={{ duration: 0.4, type: "spring" }}
+      transition={{ duration: 0.3, type: "spring" }}
     >
       <StyledImage src={image} alt={title} />
 

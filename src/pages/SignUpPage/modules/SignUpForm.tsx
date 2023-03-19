@@ -5,7 +5,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Button } from "ui";
 import { useState, FormEvent } from "react";
 import { AdditionalOption } from "../components/AdditionalOption";
-import { useAuth } from "store";
+import { useAuth } from "store/authStore";
 import { useFormAndValidation } from "hooks/useFormAndValidation";
 
 const StyledSection = styled.section`
@@ -43,7 +43,6 @@ export const SignUpForm = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("НУ блят?");
     signup({
       name: values.name,
       email: values.email,

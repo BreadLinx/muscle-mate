@@ -1,12 +1,12 @@
 import ky from "ky";
 import { getCookie, setCookie, deleteCookie } from "utils/cookies";
-import { useAuth } from "store";
+import { useAuth } from "store/authStore";
+import { IExercise } from "types";
 
 // export const SERVER_URL = "http://localhost:5000";
 export const SERVER_URL = "https://muscle-mate-server.onrender.com";
 
 const BASE_API_URL = `${SERVER_URL}/api`;
-const POSTS_URL = `${BASE_API_URL}/posts`;
 const EXERCISES_URL = `${BASE_API_URL}/exercises`;
 
 const BASE_AUTH_URL = `${SERVER_URL}/auth`;
@@ -51,28 +51,6 @@ const authApi = ky.create({
   headers: { Authorization: `Bearer ${getCookie("authToken")}` },
 });
 
-export const getPostsRequest = async (skipParam: number) => {
-  try {
-    return await ky
-      .get(POSTS_URL, { searchParams: `?skip=${skipParam}` })
-      .json();
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const createPostRequest = async ({ text }: { text: string }) => {
-  try {
-    return authApi
-      .post(POSTS_URL, {
-        json: { text },
-      })
-      .json();
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 export const patchProfileAvatarRequest = async (formData: FormData) => {
   try {
     return await authApi
@@ -87,7 +65,10 @@ export const patchProfileAvatarRequest = async (formData: FormData) => {
 
 export const getExercisesRequest = async () => {
   try {
-    return await ky.get(EXERCISES_URL).json();
+    return (await ky.get(EXERCISES_URL).json()) as {
+      success: boolean;
+      data: IExercise[];
+    };
   } catch (err) {
     console.log(err);
   }

@@ -68,7 +68,31 @@ const StyledInputWrapper = styled.div`
   position: relative;
 `;
 
-interface InputProps {
+const StyledTextAreaWrapper = styled.div`
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+`;
+
+const StyledTextArea = styled.textarea`
+  width: 100%;
+  background-color: initial;
+  border: 0;
+  outline: none;
+  resize: none;
+
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: left;
+
+  &::-webkit-scrollbar {
+    width: 1px;
+  }
+`;
+
+interface CommonInputProps {
   htmlId: string;
   label?: string;
   placeholder: string;
@@ -76,55 +100,100 @@ interface InputProps {
     text: string;
     handler: () => void;
   };
+
+  name: string;
+  value: string;
+  readonly?: boolean;
+}
+
+type multilineInputProps = CommonInputProps & {
+  multiline?: boolean;
+  rows?: number;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+
+  StartIcon?: never;
+  EndIcon?: never;
+  StartIconHandler?: never;
+  EndIconHandler?: never;
+  type?: never;
+};
+type oneLineInputProps = CommonInputProps & {
   StartIcon?: ReactNode;
   EndIcon?: ReactNode;
   StartIconHandler?: () => void;
   EndIconHandler?: () => void;
-  type?: string;
-  name: string;
-  value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-}
+  type?: string;
+
+  multiline?: never;
+  rows?: never;
+};
+
+type InputProps = multilineInputProps | oneLineInputProps;
 
 export const Input: FC<InputProps> = ({
   htmlId,
   label,
   bottomButton,
+
   StartIcon,
   EndIcon,
   StartIconHandler,
   EndIconHandler,
+
   placeholder,
   type = "text",
   name,
   value,
   onChange,
+
+  multiline = false,
+  readonly = false,
 }) => {
   return (
     <StyledFormControl>
       {label && <StyledInputLabel htmlFor={htmlId}>{label}</StyledInputLabel>}
-      <StyledInputWrapper>
-        {StartIcon && (
-          <StyledEndIcon type="button" onClick={StartIconHandler}>
-            {StartIcon}
-          </StyledEndIcon>
-        )}
+      {!multiline ? (
+        <StyledInputWrapper>
+          {StartIcon && (
+            <StyledEndIcon type="button" onClick={StartIconHandler}>
+              {StartIcon}
+            </StyledEndIcon>
+          )}
 
-        <StyledInput
-          id={htmlId}
-          placeholder={placeholder}
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
-        />
+          <StyledInput
+            id={htmlId}
+            placeholder={placeholder}
+            type={type}
+            name={name}
+            value={value}
+            onChange={onChange as (e: ChangeEvent<HTMLInputElement>) => void}
+            readOnly={readonly}
+          />
 
-        {EndIcon && (
-          <StyledEndIcon type="button" onClick={EndIconHandler}>
-            {EndIcon}
-          </StyledEndIcon>
-        )}
-      </StyledInputWrapper>
+          {EndIcon && (
+            <StyledEndIcon type="button" onClick={EndIconHandler}>
+              {EndIcon}
+            </StyledEndIcon>
+          )}
+        </StyledInputWrapper>
+      ) : (
+        <StyledInputWrapper>
+          <StyledTextAreaWrapper>
+            <StyledTextArea
+              value={value}
+              onChange={
+                onChange as (e: ChangeEvent<HTMLTextAreaElement>) => void
+              }
+              rows={7}
+              maxLength={357}
+              name={name}
+              placeholder={placeholder}
+              readOnly={readonly}
+            ></StyledTextArea>
+          </StyledTextAreaWrapper>
+        </StyledInputWrapper>
+      )}
       {bottomButton && (
         <StyledBottomButton type="button" onClick={bottomButton.handler}>
           {bottomButton.text}

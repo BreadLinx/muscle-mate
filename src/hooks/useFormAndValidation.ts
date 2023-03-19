@@ -20,6 +20,21 @@ export function useFormAndValidation() {
     );
   };
 
+  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    const form = e.target.closest("form");
+    if (!form) {
+      return;
+    }
+    const inputs = Array.from(form.querySelectorAll("input"));
+    setValues({ ...values, [name]: value });
+    setErrors({ ...errors, [name]: e.target.validationMessage });
+    setIsValid(
+      !inputs.some((input: { value: string }): boolean => input.value === "") &&
+        form.checkValidity(),
+    );
+  };
+
   const resetForm = useCallback(
     (newValues = {}, newErrors = {}, newIsValid = false) => {
       setValues(newValues);
@@ -32,6 +47,7 @@ export function useFormAndValidation() {
   return {
     values,
     handleChange,
+    handleTextAreaChange,
     errors,
     isValid,
     resetForm,

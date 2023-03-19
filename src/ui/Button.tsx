@@ -6,6 +6,7 @@ export const Button = styled.button`
   height: 55px;
   width: 100%;
   border-radius: 20px;
+  outline: none;
 
   font-family: "Inter";
   font-size: 22px;

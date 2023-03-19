@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Input, InputLabel, FormControl, Button } from "@mui/material";
 import { Link } from "ui";
 import { useState, ChangeEvent, FormEvent } from "react";
-import { useAuth } from "store";
+import { useAuth } from "store/authStore";
 import { Navigate, useLocation } from "react-router-dom";
 
 const StyledForm = styled.form`

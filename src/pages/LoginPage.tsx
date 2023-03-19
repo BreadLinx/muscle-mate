@@ -9,7 +9,7 @@ import {
   Checkbox,
 } from "@mui/material";
 import { FormEvent, useState, ChangeEvent } from "react";
-import { useAuth } from "store";
+import { useAuth } from "store/authStore";
 import { Flex, Link } from "ui";
 import { Navigate, useLocation } from "react-router-dom";
 

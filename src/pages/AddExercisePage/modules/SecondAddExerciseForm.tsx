@@ -136,7 +136,7 @@ export const AddExerciseForm = () => {
 
   return (
     <StyledSection>
-      {/* <StyledForm onSubmit={handleSubmit} autoComplete="off">
+      <StyledForm onSubmit={handleSubmit} autoComplete="off">
         <StyledTitle>Create new exercise</StyledTitle>
         <Flex d="row" g={50}>
           <StyledImageContainer
@@ -178,7 +178,7 @@ export const AddExerciseForm = () => {
               <InputLabel id="demo-simple-select-standard-label">
                 muscle area
               </InputLabel>
-              <Select
+              {/* <Select
                 sx={{ minHeight: 42 }}
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
@@ -199,7 +199,7 @@ export const AddExerciseForm = () => {
                     {area}
                   </MenuItem>
                 ))}
-              </Select>
+              </Select> */}
             </FormControl>
             <FormControl variant="standard" sx={{ width: "400px" }}>
               <InputLabel htmlFor="descriptionInput">
@@ -228,8 +228,7 @@ export const AddExerciseForm = () => {
         <Button type="submit" variant="outlined">
           Submit
         </Button>
-      </StyledForm> */}
-      {/* <Select /> */}
+      </StyledForm>
     </StyledSection>
   );
 };

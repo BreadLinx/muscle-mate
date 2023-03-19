@@ -2,7 +2,6 @@ import { MainLayout } from "layouts/SecondMainLayout";
 import { Post } from "modules/Post";
 import { Flex } from "ui/Flex";
 import { useEffect, ChangeEvent, useState, useDeferredValue } from "react";
-import { usePosts } from "store";
 import {
   Input,
   FormControl,
@@ -30,23 +29,20 @@ export const HomePage = () => {
     threshold: 0.1,
   });
 
-  const { posts, getPosts, createPost, skip } = usePosts(state => state);
-  const postsValues = useDeferredValue(posts);
-
-  useEffect(() => {
-    if (lastPostInView) {
-      getPosts(skip);
-    }
-  }, [lastPostInView]);
+  // useEffect(() => {
+  //   if (lastPostInView) {
+  //     getPosts(skip);
+  //   }
+  // }, [lastPostInView]);
 
   const handleCreatePostChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCreatePostValue(e.target.value);
   };
 
-  const handleCreatePost = () => {
-    createPost({ text: createPostValue });
-    setCreatePostValue("");
-  };
+  // const handleCreatePost = () => {
+  //   createPost({ text: createPostValue });
+  //   setCreatePostValue("");
+  // };
 
   return (
     <MainLayout>
@@ -85,16 +81,16 @@ export const HomePage = () => {
                   </IconButton>
                 </InputAdornment>
                 <InputAdornment position="end">
-                  <IconButton onClick={handleCreatePost}>
+                  {/* <IconButton onClick={handleCreatePost}>
                     <Send />
-                  </IconButton>
+                  </IconButton> */}
                 </InputAdornment>
               </>
             }
           />
         </FormControl>
 
-        {postsValues.length === 0 ? (
+        {/* {postsValues.length === 0 ? (
           <div>LOADING........................</div>
         ) : (
           <AnimatePresence>
@@ -105,7 +101,7 @@ export const HomePage = () => {
               return <Post key={post._id} post={post} />;
             })}
           </AnimatePresence>
-        )}
+        )} */}
       </Flex>
     </MainLayout>
   );

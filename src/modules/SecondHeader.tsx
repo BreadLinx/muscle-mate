@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Flex } from "ui/Flex";
-import { useAuth } from "store";
+import { useAuth } from "store/authStore";
 import {
   Avatar,
   MenuList,

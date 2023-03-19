@@ -5,7 +5,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Button } from "ui";
 import { useState, FormEvent } from "react";
 import { AdditionalOption } from "pages/SignUpPage/components/AdditionalOption";
-import { useAuth } from "store";
+import { useAuth } from "store/authStore";
 import { useFormAndValidation } from "hooks/useFormAndValidation";
 
 const StyledSection = styled.section`

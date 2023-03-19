@@ -8,13 +8,13 @@ const WorkoutWeekParams = [
     name: "Monday",
     state: DayStates.Default,
     path: "/setupplan/monday",
-    group: "Chest",
+    group: "",
   },
   {
     name: "Tuesday",
     state: DayStates.Default,
     path: "/setupplan/tuesday",
-    group: "ABS",
+    group: "",
   },
   {
     name: "Wednesday",

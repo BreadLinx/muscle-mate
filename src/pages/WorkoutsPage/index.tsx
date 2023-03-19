@@ -3,55 +3,55 @@ import { WorkoutWeek } from "./modules/WorkoutWeek";
 import { MainLayout } from "layouts/MainLayout";
 import { DayStates } from "pages/WorkoutsPage/components/WorkoutDay";
 import { useMemo } from "react";
-import { useAuth } from "store";
+import { useAuth } from "store/authStore";
 
 const WorkoutWeekParams = [
   {
     name: "Monday",
     state: DayStates.Default,
-    path: "/setupplan/monday",
+    path: "/",
     group: "",
     exercises: [] as string[],
   },
   {
     name: "Tuesday",
     state: DayStates.Default,
-    path: "/setupplan/tuesday",
+    path: "/",
     group: "",
     exercises: [] as string[],
   },
   {
     name: "Wednesday",
     state: DayStates.Default,
-    path: "/setupplan/wednesday",
+    path: "/",
     group: "",
     exercises: [] as string[],
   },
   {
     name: "Thursday",
     state: DayStates.Default,
-    path: "/setupplan/thursday",
+    path: "/",
     group: "",
     exercises: [] as string[],
   },
   {
     name: "Friday",
     state: DayStates.Default,
-    path: "/setupplan/friday",
+    path: "/",
     group: "",
     exercises: [] as string[],
   },
   {
     name: "Saturday",
     state: DayStates.Default,
-    path: "/setupplan/saturday",
+    path: "/",
     group: "",
     exercises: [] as string[],
   },
   {
     name: "Sunday",
     state: DayStates.Default,
-    path: "/setupplan/sunday",
+    path: "/",
     group: "",
     exercises: [] as string[],
   },
@@ -71,44 +71,64 @@ export const WorkoutsPage = () => {
         };
 
         switch (index) {
-          case 0:
-            dayElement = workouts.monday;
-            break;
           case 1:
-            dayElement = workouts.tuesday;
+            dayElement = {
+              name: workouts.monday.name,
+              exercices: [...workouts.monday.exercices],
+            };
             break;
           case 2:
-            dayElement = workouts.wednesday;
+            dayElement = {
+              name: workouts.tuesday.name,
+              exercices: [...workouts.tuesday.exercices],
+            };
             break;
           case 3:
-            dayElement = workouts.thursday;
+            dayElement = {
+              name: workouts.wednesday.name,
+              exercices: [...workouts.wednesday.exercices],
+            };
             break;
           case 4:
-            dayElement = workouts.friday;
+            dayElement = {
+              name: workouts.thursday.name,
+              exercices: [...workouts.thursday.exercices],
+            };
             break;
           case 5:
-            dayElement = workouts.saturday;
+            dayElement = {
+              name: workouts.friday.name,
+              exercices: [...workouts.friday.exercices],
+            };
             break;
           case 6:
-            dayElement = workouts.sunday;
+            dayElement = {
+              name: workouts.saturday.name,
+              exercices: [...workouts.saturday.exercices],
+            };
+            break;
+          case 0:
+            dayElement = {
+              name: workouts.sunday.name,
+              exercices: [...workouts.sunday.exercices],
+            };
             break;
         }
 
-        if (date.getDay() === index) {
-          item = {
+        if ((date.getDay() + 6) % 7 === index) {
+          return {
             ...item,
             group: dayElement.name,
             exercises: [...dayElement.exercices],
             state: DayStates.Active,
           };
         } else {
-          item = {
+          return {
             ...item,
             group: dayElement.name,
             exercises: [...dayElement.exercices],
           };
         }
-        return item;
       });
     }
     return WorkoutWeekParams;

@@ -3,6 +3,8 @@ import { ExerciseCard } from "../components/ExerciseCard";
 import { useEffect, useState, ChangeEvent, FC } from "react";
 import { useExercises } from "store/exercisesStore";
 import { AnimatePresence } from "framer-motion";
+import { getExercisesRequest } from "utils/api";
+import { useQuery } from "@tanstack/react-query";
 
 const StyledSection = styled.section`
   width: 100%;
@@ -25,22 +27,15 @@ interface ExercisesListProps {
 }
 
 export const ExercisesList: FC<ExercisesListProps> = ({ searchValue }) => {
-  const { getExercises, exercises } = useExercises(state => state);
-
-  useEffect(() => {
-    getExercises();
-  }, []);
+  const exercises = useExercises(state => state.exercises);
 
   const filteredData = exercises.filter(item => {
     if (searchValue === "") {
       return item;
-    }
-    //return the item which contains the user input
-    else {
+    } else {
       return item.name.toLowerCase().includes(searchValue);
     }
   });
-
   return (
     <StyledSection>
       <StyledList>

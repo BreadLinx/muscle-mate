@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import { useRef, ChangeEvent } from "react";
-import { useAuth } from "store";
+import { useAuth } from "store/authStore";
 import addPhotoIcon from "images/addPhotoIcon.svg";
 import { useNavigate } from "react-router-dom";
 

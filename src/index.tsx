@@ -2,6 +2,9 @@ import ReactDOM from "react-dom/client";
 import { App } from "./App";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const client = new QueryClient();
 
 const muiTheme = createTheme({
   palette: {
@@ -27,8 +30,7 @@ const Global = createGlobalStyle`
   box-sizing: border-box;
   color: ${theme.colors.textColor};
 
-  ::-webkit-scrollbar {
-  width: 6px;
+  
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -37,6 +39,10 @@ h1, h2, h3, h4, h5, h6 {
 
 p, a, span {
   font-family: "Inter", Arial, Helvetica, sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
 }
 
 /* Track */
@@ -53,7 +59,6 @@ p, a, span {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #414141;
-}
 }
 
 body {
@@ -85,7 +90,9 @@ root.render(
     <ThemeProvider theme={theme}>
       <MuiThemeProvider theme={muiTheme}>
         <Global />
-        <App />
+        <QueryClientProvider client={client}>
+          <App />
+        </QueryClientProvider>
       </MuiThemeProvider>
     </ThemeProvider>
   </>,

@@ -2,8 +2,9 @@
   "short_name": "Muscle Mate",
   "name": "React Muscle Mate",
   "description": "Your body helper",
-  "start_url": ".",
-  "display": "standalone",
+  "start_url": "./",
+  "scope": ".",
+  "display": "fullscreen",
   "theme_color": "#1e1e1e",
   "background_color": "#1e1e1e",
   "icons": [
