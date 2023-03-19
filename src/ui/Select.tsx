@@ -81,13 +81,16 @@ const StyledDrawerElement = styled.button`
   flex-flow: row nowrap;
   justify-content: flex-start;
   background-color: ${({ checked }: StyledDrawerElementProps) =>
-    checked ? "#2C2C2C" : "#414141"};
+    checked ? "#515151" : "#414141"};
   transition: all 0.3s ease;
   outline: none;
 
-  &:hover {
-    background-color: #313131;
+  @media (min-width: 1440px) {
+    &:hover {
+      background-color: #313131;
+    }
   }
+
   &:last-of-type {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;

@@ -26,6 +26,7 @@ import { SetupDayPage } from "pages/SetupDayPage";
 import { AnimatePresence } from "framer-motion";
 import { SignInPage } from "pages/SignInPage";
 import { SignUpPage } from "pages";
+import styled from "styled-components";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -61,6 +62,8 @@ const router = createBrowserRouter(
     </>,
   ),
 );
+
+const StyledMobileContainer = styled.div``;
 
 export const App = () => {
   const { getMe, setUserAuthorizedFalse } = useAuth(state => state);

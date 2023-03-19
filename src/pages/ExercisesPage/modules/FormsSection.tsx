@@ -47,6 +47,7 @@ export const FormsSection = () => {
           name="search"
           value={values.search || ""}
           onChange={handleChange}
+          StartIcon={<SearchIcon />}
         />
 
         <StyledFieldsWrapper>

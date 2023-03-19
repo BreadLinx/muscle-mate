@@ -76,7 +76,9 @@ interface InputProps {
     text: string;
     handler: () => void;
   };
+  StartIcon?: ReactNode;
   EndIcon?: ReactNode;
+  StartIconHandler?: () => void;
   EndIconHandler?: () => void;
   type?: string;
   name: string;
@@ -88,7 +90,9 @@ export const Input: FC<InputProps> = ({
   htmlId,
   label,
   bottomButton,
+  StartIcon,
   EndIcon,
+  StartIconHandler,
   EndIconHandler,
   placeholder,
   type = "text",
@@ -100,6 +104,12 @@ export const Input: FC<InputProps> = ({
     <StyledFormControl>
       {label && <StyledInputLabel htmlFor={htmlId}>{label}</StyledInputLabel>}
       <StyledInputWrapper>
+        {StartIcon && (
+          <StyledEndIcon type="button" onClick={StartIconHandler}>
+            {StartIcon}
+          </StyledEndIcon>
+        )}
+
         <StyledInput
           id={htmlId}
           placeholder={placeholder}
