@@ -2,7 +2,8 @@ import ky from "ky";
 import { getCookie, setCookie, deleteCookie } from "utils/cookies";
 import { useAuth } from "store";
 
-export const SERVER_URL = "http://localhost:5000";
+// export const SERVER_URL = "http://localhost:5000";
+export const SERVER_URL = "https://muscle-mate-server.onrender.com";
 
 const BASE_API_URL = `${SERVER_URL}/api`;
 const POSTS_URL = `${BASE_API_URL}/posts`;

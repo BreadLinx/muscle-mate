@@ -4,9 +4,16 @@ import { FormsSection } from "./modules/FormsSection";
 import { ExercisesList } from "./modules/ExercisesList";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
+import { useState, ChangeEvent } from "react";
 
 export const ExercisesPage = () => {
   const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const lowerCase = e.target.value.toLowerCase();
+    setSearchValue(lowerCase);
+  };
 
   return (
     <MainLayout
@@ -20,8 +27,11 @@ export const ExercisesPage = () => {
         navigate("/addexercise");
       }}
     >
-      <FormsSection />
-      <ExercisesList />
+      <FormsSection
+        searchValue={searchValue}
+        handleSearch={handleSearchChange}
+      />
+      <ExercisesList searchValue={searchValue} />
     </MainLayout>
   );
 };

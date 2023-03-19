@@ -58,7 +58,6 @@ export const useExercises = create<IExercisesState>((set, get) => ({
         success: true,
       },
     }));
-    console.log(response);
   },
   createExercise: async formData => {
     set({

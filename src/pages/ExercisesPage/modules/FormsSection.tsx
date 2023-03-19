@@ -3,16 +3,13 @@ import { Input } from "ui/Input";
 import { Select } from "ui/Select";
 import SearchIcon from "@mui/icons-material/Search";
 import { useFormAndValidation } from "hooks/useFormAndValidation";
+import { FC, ChangeEvent } from "react";
 
 const StyledSection = styled.section`
   width: 100%;
   padding-left: 10px;
   padding-right: 10px;
 `;
-
-// const FiftyPercentWidthFormControl = styled(FormControl)`
-//   width: calc(50% - 7px) !important;
-// `;
 
 const StyledFieldsWrapper = styled.div`
   display: flex;
@@ -23,30 +20,40 @@ const StyledFieldsWrapper = styled.div`
   margin-top: 10px;
 `;
 
-const musclesDrawerElementList = ["Arms", "Legs", "Back", "Chest"];
-const equipmentDrawerElementList = ["Arms", "Legs", "Back", "Chest"];
+const musclesDrawerElementList = [
+  "Chest",
+  "Back",
+  "Abs & Core",
+  "Neck",
+  "Legs & Glutes",
+  "Shoulders",
+  "Arms",
+];
+const equipmentDrawerElementList = [
+  "Body weight",
+  "Machine",
+  "Barbell",
+  "Dumbbells",
+];
 
-export const FormsSection = () => {
-  const { values, handleChange } = useFormAndValidation();
+interface FormsSectionProps {
+  searchValue: string;
+  handleSearch: (e: ChangeEvent<HTMLInputElement>) => void;
+}
 
+export const FormsSection: FC<FormsSectionProps> = ({
+  searchValue,
+  handleSearch,
+}) => {
   return (
     <StyledSection>
       <form autoComplete="off">
-        {/* <FormControl fullWidth variant="standard">
-          <Input
-            startAdornment={
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            }
-          />
-        </FormControl> */}
         <Input
           htmlId="search-input"
           placeholder="Search"
           name="search"
-          value={values.search || ""}
-          onChange={handleChange}
+          value={searchValue}
+          onChange={handleSearch}
           StartIcon={<SearchIcon />}
         />
 
@@ -62,44 +69,6 @@ export const FormsSection = () => {
             drawerInitialList={equipmentDrawerElementList}
             multichoice
           />
-          {/* <FiftyPercentWidthFormControl variant="standard">
-            <InputLabel id="demo-simple-select-standard-label">
-              Select muscles
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              // value={age}
-              // onChange={handleChange}
-              label="Age"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FiftyPercentWidthFormControl>
-          <FiftyPercentWidthFormControl variant="standard">
-            <InputLabel id="demo-simple-select-standard-label">
-              Select equipment
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              // value={age}
-              // onChange={handleChange}
-              label="Age"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FiftyPercentWidthFormControl> */}
         </StyledFieldsWrapper>
       </form>
     </StyledSection>

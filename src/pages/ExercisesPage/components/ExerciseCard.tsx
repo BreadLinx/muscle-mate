@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { FC } from "react";
+import { motion } from "framer-motion";
 
-const StyledListElement = styled.li`
+const StyledListElement = styled(motion.li)`
   background-color: #383838;
   border-radius: 20px;
   padding: 10px;
@@ -84,13 +86,40 @@ const StyledTagsList = styled.div`
 
 const StyledTag = styled.li``;
 
-export const ExerciseCard = () => {
+interface ExerciseCardProps {
+  image: string;
+  title: string;
+  groups: string[];
+  description?: string;
+}
+
+export const ExerciseCard: FC<ExerciseCardProps> = ({
+  image,
+  title,
+  groups,
+  description,
+}) => {
   return (
-    <StyledListElement>
-      <StyledImage src="https://cdn.muscleandstrength.com/sites/default/files/pull-up-1.jpg" />
+    <StyledListElement
+      layout
+      initial={{
+        scale: 0.8,
+        opacity: 0,
+      }}
+      animate={{
+        scale: 1,
+        opacity: 1,
+      }}
+      exit={{
+        scale: 0.8,
+        opacity: 0,
+      }}
+      transition={{ duration: 0.4, type: "spring" }}
+    >
+      <StyledImage src={image} alt={title} />
 
       <StyledTitleFlexWrapper>
-        <StyledTitle>Pull up</StyledTitle>
+        <StyledTitle>{title}</StyledTitle>
 
         <StyledAddButton>
           <AddCircleOutlineIcon />
@@ -98,17 +127,12 @@ export const ExerciseCard = () => {
       </StyledTitleFlexWrapper>
 
       <StyledTagsList>
-        <StyledTagText>chest</StyledTagText>
+        {groups.map(group => {
+          return <StyledTagText key={group}>{group}</StyledTagText>;
+        })}
       </StyledTagsList>
 
-      <StyledDescription>
-        challenging upper body exercise where you grip an overhead bar and lift
-        your body until your ch...challenging upper body exercise where you grip
-        an overhead bar and lift your body until your ch...challenging upper
-        body exercise where you grip an overhead bar and lift your body until
-        your ch...challenging upper body exercise where you grip an overhead bar
-        and lift your body until your ch...
-      </StyledDescription>
+      <StyledDescription>{description}</StyledDescription>
     </StyledListElement>
   );
 };
