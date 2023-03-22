@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 
 export const MyOwnExercisesPage = () => {
+  const navigate = useNavigate();
   const userExercises = useAuth(state => state.userExercises);
   const [searchValue, setSearchValue] = useState("");
-  const navigate = useNavigate();
+  const [musclesSelectValue, setMusclesSelectValue] = useState("");
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const lowerCase = e.target.value.toLowerCase();
@@ -32,8 +33,14 @@ export const MyOwnExercisesPage = () => {
       <FormsSection
         searchValue={searchValue}
         handleSearch={handleSearchChange}
+        selectValue={musclesSelectValue}
+        setSelectValue={setMusclesSelectValue}
       />
-      <ExercisesList searchValue={searchValue} exercises={userExercises} />
+      <ExercisesList
+        searchValue={searchValue}
+        selectValue={musclesSelectValue}
+        exercises={userExercises}
+      />
     </MainLayout>
   );
 };

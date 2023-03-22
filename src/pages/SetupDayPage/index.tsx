@@ -3,10 +3,13 @@ import { MainLayout } from "layouts/MainLayout";
 import { WithoutBottomNavigation } from "layouts/WithoutBottomNavigation";
 import { useParams } from "react-router-dom";
 import { SetupDaySection } from "./modules/SetupDaySection";
+import { useAuth } from "store";
 
 export const SetupDayPage = () => {
-  const { day } = useParams();
+  const { day } = useParams() as { day: "monday" | "tuesday" | "wednesday" };
   const titleFont = day === "wednesday" ? 29 : 32;
+  const workouts = useAuth(state => state.workouts);
+  const properDay = workouts && workouts[day];
 
   return (
     <WithoutBottomNavigation
@@ -14,7 +17,10 @@ export const SetupDayPage = () => {
       titleFont={titleFont}
       arrowPath="/setupplan"
     >
-      <SetupDaySection></SetupDaySection>
+      <SetupDaySection
+        muscleName={properDay!.name}
+        dayExercises={properDay!.exercises}
+      />
     </WithoutBottomNavigation>
   );
 };

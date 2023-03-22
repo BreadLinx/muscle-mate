@@ -1,3 +1,13 @@
+export type Tdays =
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "thursday"
+  | "friday"
+  | "saturday"
+  | "sunday";
+
 export interface IExercise {
   _id: string;
   name: string;
@@ -11,6 +21,30 @@ export interface IExercise {
   __v: number;
 }
 
+export interface IUserWorkoutExercise {
+  exerciseId: string;
+  name: string;
+  image: string;
+  weight: number;
+  weightIncrease: number;
+  repeats: number;
+  timesPerRepeat: number;
+  completed: boolean;
+}
+
+export interface IRequestStates {
+  request: boolean;
+  error: boolean;
+  errorMessage: string | undefined;
+  success: boolean;
+}
+
+export interface IWorkoutDay {
+  name: string;
+  completed: boolean;
+  exercises: IUserWorkoutExercise[];
+}
+
 export interface IUser {
   _id: string;
   name: string;
@@ -21,13 +55,13 @@ export interface IUser {
   userExercises: IExercise[];
   role: string;
   workouts: {
-    monday: { name: ""; exercices: [] };
-    tuesday: { name: ""; exercices: [] };
-    wednesday: { name: ""; exercices: [] };
-    thursday: { name: ""; exercices: [] };
-    friday: { name: ""; exercices: [] };
-    saturday: { name: ""; exercices: [] };
-    sunday: { name: ""; exercices: [] };
+    monday: IWorkoutDay;
+    tuesday: IWorkoutDay;
+    wednesday: IWorkoutDay;
+    thursday: IWorkoutDay;
+    friday: IWorkoutDay;
+    saturday: IWorkoutDay;
+    sunday: IWorkoutDay;
   };
   __v: number;
 }

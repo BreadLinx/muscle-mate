@@ -1,8 +1,10 @@
 import { AddNewExerciseButton } from "../components/AddNewExerciseButton";
 import styled from "styled-components";
 import { Select } from "ui/Select";
-import { useState } from "react";
+import { useState, FC } from "react";
 import { ExerciseCard } from "../components/ExerciseCard";
+import { IUserWorkoutExercise } from "types";
+import { useAuth, useExercises } from "store";
 
 const StyledSection = styled.section`
   width: 100%;
@@ -26,8 +28,18 @@ const musclesDrawerElementList = [
   "Arms",
 ];
 
-export const SetupDaySection = () => {
-  const [musclesSelectValue, setMusclesSelectValue] = useState("");
+interface SetupDaySectionProps {
+  muscleName?: string;
+  dayExercises?: IUserWorkoutExercise[];
+}
+
+export const SetupDaySection: FC<SetupDaySectionProps> = ({
+  muscleName,
+  dayExercises,
+}) => {
+  const [musclesSelectValue, setMusclesSelectValue] = useState(
+    muscleName ? muscleName : "",
+  );
 
   return (
     <StyledSection>
@@ -38,7 +50,17 @@ export const SetupDaySection = () => {
         inputValue={musclesSelectValue}
         setInputValue={setMusclesSelectValue}
       />
-      <ExerciseCard />
+      {dayExercises &&
+        dayExercises.map((exercise, index) => {
+          return (
+            <ExerciseCard
+              key={exercise.exerciseId + index}
+              name={exercise.name}
+              image={exercise.image}
+            />
+          );
+        })}
+
       <AddNewExerciseButton />
     </StyledSection>
   );

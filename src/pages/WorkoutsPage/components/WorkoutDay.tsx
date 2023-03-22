@@ -16,7 +16,7 @@ const StyledListElement = styled.li`
       case DayStates.Active:
         return "rgba(97, 255, 0, 0.8)";
       case DayStates.Done:
-        return "#447EB4";
+        return "#007AFF";
     }
   }};
   border-radius: 20px;

@@ -10,7 +10,7 @@ import {
 } from "utils/api";
 import { setCookie, deleteCookie } from "utils/cookies";
 import { IUser } from "types";
-import { IExercise } from "types";
+import { IExercise, IWorkoutDay, IRequestStates, Tdays } from "types";
 
 interface IAuthState {
   isUserAuthorized: boolean | undefined;
@@ -19,45 +19,13 @@ interface IAuthState {
   avatarUrl: string;
   userExercises: IExercise[];
   role: string;
-  workouts: {
-    monday: { name: string; exercices: string[] };
-    tuesday: { name: string; exercices: string[] };
-    wednesday: { name: string; exercices: string[] };
-    thursday: { name: string; exercices: string[] };
-    friday: { name: string; exercices: string[] };
-    saturday: { name: string; exercices: string[] };
-    sunday: { name: string; exercices: string[] };
-  } | null;
-  signupRequestData: {
-    request: boolean;
-    error: boolean;
-    errorMessage: string | undefined;
-    success: boolean;
-  };
-  loginRequestData: {
-    request: boolean;
-    error: boolean;
-    errorMessage: string | undefined;
-    success: boolean;
-  };
-  signoutRequestData: {
-    request: boolean;
-    error: boolean;
-    errorMessage: string | undefined;
-    success: boolean;
-  };
-  getMeRequestData: {
-    request: boolean;
-    error: boolean;
-    errorMessage: string | undefined;
-    success: boolean;
-  };
-  createUserExerciseRequestData: {
-    request: boolean;
-    error: boolean;
-    errorMessage: string | undefined;
-    success: boolean;
-  };
+  workouts: Record<Tdays, IWorkoutDay>;
+  signupRequestData: IRequestStates;
+  loginRequestData: IRequestStates;
+  signoutRequestData: IRequestStates;
+  getMeRequestData: IRequestStates;
+  createUserExerciseRequestData: IRequestStates;
+
   signup: (data: { name: string; email: string; password: string }) => void;
   login: (data: { email: string; password: string }) => void;
   patchProfileAvatar: (fromData: FormData) => void;
@@ -66,6 +34,8 @@ interface IAuthState {
   signout: () => void;
   resetUserInfo: () => void;
   createUserExercise: (formData: FormData) => void;
+
+  addClientExercise: (day: Tdays, exerciseCard: IExercise) => void;
 }
 
 export const useAuth = create<IAuthState>((set, get) => ({
@@ -75,7 +45,43 @@ export const useAuth = create<IAuthState>((set, get) => ({
   avatarUrl: "",
   userExercises: [],
   role: "",
-  workouts: null,
+  workouts: {
+    monday: {
+      name: "",
+      completed: false,
+      exercises: [],
+    },
+    tuesday: {
+      name: "",
+      completed: false,
+      exercises: [],
+    },
+    wednesday: {
+      name: "",
+      completed: false,
+      exercises: [],
+    },
+    thursday: {
+      name: "",
+      completed: false,
+      exercises: [],
+    },
+    friday: {
+      name: "",
+      completed: false,
+      exercises: [],
+    },
+    saturday: {
+      name: "",
+      completed: false,
+      exercises: [],
+    },
+    sunday: {
+      name: "",
+      completed: false,
+      exercises: [],
+    },
+  },
 
   signupRequestData: {
     request: false,
@@ -314,5 +320,43 @@ export const useAuth = create<IAuthState>((set, get) => ({
         },
       }));
     }
+  },
+
+  addClientExercise: (day, exerciseCard) => {
+    console.log(day, exerciseCard);
+
+    set(state => {
+      if (state.workouts) {
+        const tempWorkout: Record<Tdays, IWorkoutDay> = structuredClone(
+          state.workouts,
+        );
+        console.log(tempWorkout[day]);
+
+        tempWorkout[day] = {
+          ...tempWorkout[day],
+          exercises: [
+            ...tempWorkout[day].exercises,
+            {
+              exerciseId: exerciseCard._id,
+              name: exerciseCard.name,
+              image: exerciseCard.image,
+              weight: 0,
+              weightIncrease: 0,
+              repeats: 0,
+              timesPerRepeat: 0,
+              completed: false,
+            },
+          ],
+        };
+
+        return {
+          workouts: { ...tempWorkout },
+        };
+      }
+      return { ...state };
+    });
+  },
+  setClientExerciseSetting: () => {
+    set(state => ({}));
   },
 }));

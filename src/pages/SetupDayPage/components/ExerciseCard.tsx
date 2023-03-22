@@ -4,7 +4,7 @@ import { Input } from "ui/Input";
 import { Select } from "ui/Select";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useFormAndValidation } from "hooks/useFormAndValidation";
-import { ChangeEvent } from "react";
+import { ChangeEvent, FC } from "react";
 
 const StyledCard = styled.article`
   padding: 10px;
@@ -34,12 +34,19 @@ const StyledCardTitle = styled.p`
 `;
 
 const StyledForm = styled.form`
+  width: calc(100% - 170px);
+
   display: flex;
   flex-flow: column nowrap;
   gap: 10px;
 `;
 
-export const ExerciseCard = () => {
+interface ExerciseCardProps {
+  name: string;
+  image: string;
+}
+
+export const ExerciseCard: FC<ExerciseCardProps> = ({ name, image }) => {
   const {
     values,
     handleChange,
@@ -52,10 +59,10 @@ export const ExerciseCard = () => {
 
   return (
     <StyledCard>
-      <StyledImage />
+      <StyledImage src={image} alt={name} />
       <StyledForm>
         <Flex d="row" j="space-between">
-          <StyledCardTitle>Pull up</StyledCardTitle>
+          <StyledCardTitle>{name}</StyledCardTitle>
           <RemoveIcon />
         </Flex>
         <Input

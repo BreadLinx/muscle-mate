@@ -1,16 +1,15 @@
 import styled from "styled-components";
-import { ExerciseCard } from "../components/ExerciseCard";
-import { FC, useDeferredValue } from "react";
+import { ExerciseCard } from "pages/ExercisesPage/components/ExerciseCard";
 import { AnimatePresence } from "framer-motion";
-import { IExercise } from "types";
+import { FC, useDeferredValue, useState } from "react";
+import { useExercises, useAuth } from "store";
 
 const StyledSection = styled.section`
   width: 100%;
   padding-left: 10px;
   padding-right: 10px;
-  height: calc(100vh - 245.6px);
+  height: calc(100vh - 249px);
   margin-top: 10px;
-  overflow-y: overlay;
 `;
 
 const StyledList = styled.ul`
@@ -20,17 +19,31 @@ const StyledList = styled.ul`
   gap: 20px;
 `;
 
-interface ExercisesListProps {
+interface ContentSectionProps {
   searchValue: string;
-  selectValue: string;
-  exercises: IExercise[];
+  musclesselectValue: string;
+  typeSelectValue: string;
+  checked: string;
+  setChecked: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const ExercisesList: FC<ExercisesListProps> = ({
+export const ContentSection: FC<ContentSectionProps> = ({
   searchValue,
-  selectValue,
-  exercises,
+  musclesselectValue,
+  typeSelectValue,
+  checked,
+  setChecked,
 }) => {
+  const commonExercises = useExercises(state => state.exercises);
+  const userExercises = useAuth(state => state.userExercises);
+
+  const exercises =
+    typeSelectValue === ""
+      ? [...userExercises, ...commonExercises]
+      : typeSelectValue === "My own added"
+      ? [...userExercises]
+      : [...commonExercises];
+
   const filteredDataBySearch = exercises.filter(item => {
     if (searchValue === "") {
       return item;
@@ -40,7 +53,7 @@ export const ExercisesList: FC<ExercisesListProps> = ({
   });
 
   const filteredDataByCategory = filteredDataBySearch.filter(item => {
-    if (selectValue === "") {
+    if (musclesselectValue === "") {
       return item;
     } else {
       const result = item.muscleGroups
@@ -48,7 +61,7 @@ export const ExercisesList: FC<ExercisesListProps> = ({
           return item.toLowerCase();
         })
         .some(category => {
-          return selectValue
+          return musclesselectValue
             .toLowerCase()
             .split(", ")
             .some(selectCategory => {
@@ -68,11 +81,15 @@ export const ExercisesList: FC<ExercisesListProps> = ({
           {renderExercises.map(exercise => {
             return (
               <ExerciseCard
+                handleClick={() => {
+                  setChecked(exercise._id);
+                }}
                 cardId={exercise._id}
                 key={exercise._id}
                 image={exercise.image}
                 title={exercise.name}
                 groups={exercise.muscleGroups}
+                checked={checked}
                 description={exercise.description}
               />
             );

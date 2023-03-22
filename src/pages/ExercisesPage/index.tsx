@@ -11,6 +11,7 @@ export const ExercisesPage = () => {
   const exercises = useExercises(state => state.exercises);
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
+  const [musclesSelectValue, setMusclesSelectValue] = useState("");
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const lowerCase = e.target.value.toLowerCase();
@@ -32,8 +33,14 @@ export const ExercisesPage = () => {
       <FormsSection
         searchValue={searchValue}
         handleSearch={handleSearchChange}
+        selectValue={musclesSelectValue}
+        setSelectValue={setMusclesSelectValue}
       />
-      <ExercisesList searchValue={searchValue} exercises={exercises} />
+      <ExercisesList
+        searchValue={searchValue}
+        selectValue={musclesSelectValue}
+        exercises={exercises}
+      />
     </MainLayout>
   );
 };

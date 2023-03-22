@@ -1,10 +1,14 @@
 import styled from "styled-components";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { FC } from "react";
 import { motion } from "framer-motion";
 
+interface StyledListElementProps {
+  checked: boolean;
+}
+
 const StyledListElement = styled(motion.li)`
-  background-color: #383838;
+  background-color: ${({ checked }: StyledListElementProps) =>
+    checked ? "#007aff" : "#383838"};
   border-radius: 20px;
   padding: 10px;
 
@@ -50,7 +54,7 @@ const StyledDescription = styled.p`
   line-height: 19px;
   letter-spacing: 0em;
   text-align: left;
-  color: #cacaca;
+  color: #fff;
   overflow-y: hidden;
 `;
 
@@ -60,16 +64,7 @@ const StyledTagText = styled.p`
   line-height: 22px;
   letter-spacing: 0em;
   text-align: left;
-  color: #7c7c7c;
-`;
-
-const StyledAddButton = styled.button`
-  opacity: 1;
-  transition: opacity 0.3s ease;
-
-  &:hover {
-    opacity: 0.6;
-  }
+  color: #fff;
 `;
 
 const StyledTagsList = styled.div`
@@ -84,23 +79,28 @@ const StyledTagsList = styled.div`
   overflow-x: hidden;
 `;
 
-const StyledTag = styled.li``;
-
 interface ExerciseCardProps {
+  cardId?: string;
   image: string;
   title: string;
   groups: string[];
   description?: string;
+  checked?: string;
+  handleClick?: () => void;
 }
 
 export const ExerciseCard: FC<ExerciseCardProps> = ({
+  cardId,
   image,
   title,
   groups,
   description,
+  checked = false,
+  handleClick,
 }) => {
   return (
     <StyledListElement
+      onClick={handleClick}
       layout
       initial={{
         opacity: 1,
@@ -109,6 +109,7 @@ export const ExerciseCard: FC<ExerciseCardProps> = ({
         opacity: 0,
       }}
       transition={{ duration: 0.3, type: "spring" }}
+      checked={checked === cardId}
     >
       <StyledImage src={image} alt={title} />
 

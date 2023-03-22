@@ -2,8 +2,7 @@ import styled from "styled-components";
 import { Input } from "ui/Input";
 import { Select } from "ui/Select";
 import SearchIcon from "@mui/icons-material/Search";
-import { useFormAndValidation } from "hooks/useFormAndValidation";
-import { FC, ChangeEvent, useState } from "react";
+import { FC, ChangeEvent } from "react";
 
 const StyledSection = styled.section`
   width: 100%;
@@ -30,14 +29,16 @@ const StyledForm = styled.form`
 interface FormsSectionProps {
   searchValue: string;
   handleSearch: (e: ChangeEvent<HTMLInputElement>) => void;
+  selectValue: string;
+  setSelectValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const FormsSection: FC<FormsSectionProps> = ({
   searchValue,
   handleSearch,
+  selectValue,
+  setSelectValue,
 }) => {
-  const [musclesSelectValue, setMusclesSelectValue] = useState("");
-
   return (
     <StyledSection>
       <StyledForm autoComplete="off">
@@ -53,8 +54,8 @@ export const FormsSection: FC<FormsSectionProps> = ({
           placeholder="Select muscles"
           drawerInitialList={musclesDrawerElementList}
           multichoice
-          inputValue={musclesSelectValue}
-          setInputValue={setMusclesSelectValue}
+          inputValue={selectValue}
+          setInputValue={setSelectValue}
         />
       </StyledForm>
     </StyledSection>
