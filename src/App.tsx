@@ -5,63 +5,64 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import styled from "styled-components";
+import { useEffect } from "react";
+
 import {
-  SettingsPage,
-  LoginPage,
-  ExercicesPage,
   WorkoutsPage,
   WorkoutPage,
+  SetupPage,
+  SetupDayPage,
+  ExercisesPage,
+  MyOwnExercisesPage,
+  NutritionPage,
+  SignInPage,
+  SignUpPage,
   AddExercisePage,
+  ProfilePage,
+  ChooseExercisePage,
+  ResetPasswordPage,
+  ResetPasswordCodePage,
+  NotFoundPage,
 } from "pages";
-import { useEffect } from "react";
+
 import { getCookie, deleteCookie } from "utils/cookies";
-import { useAuth } from "store/authStore";
-import { PrivateRoutes } from "modules/PrivateRoutes";
-import { SetupPage } from "pages/SetupPage";
-import { ExercisesPage } from "pages/ExercisesPage";
-import { FavoritesExercisesPage } from "pages/FavoritesExercisesPage";
-import { NutritionPage } from "pages/NutritionPage";
-import { ProfilePage } from "pages/ProfilePage";
-import { SetupDayPage } from "pages/SetupDayPage";
-import { AnimatePresence } from "framer-motion";
-import { SignInPage } from "pages/SignInPage";
-import { SignUpPage } from "pages";
-import styled from "styled-components";
-import { useExercises } from "store/exercisesStore";
 import { getExercisesRequest } from "utils/api";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+import { useAuth, useExercises } from "store";
+import { PrivateRoutes } from "modules/PrivateRoutes";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<WorkoutsPage />} />
-      <Route path="/setupplan" element={<SetupPage />} />
-      <Route path="/setupplan/:day" element={<SetupDayPage />} />
-
-      <Route path="/exercises" element={<ExercisesPage />} />
-      <Route path="/favorites" element={<FavoritesExercisesPage />} />
-
-      <Route path="/nutrition" element={<NutritionPage />} />
-
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/signup" element={<SignUpPage />} />
 
-      <Route path="/addexercise" element={<AddExercisePage />} />
+      <Route path="/resetpassword" element={<ResetPasswordPage />} />
+      <Route path="/resetpasswordcode" element={<ResetPasswordCodePage />} />
 
       <Route element={<PrivateRoutes />}>
         <Route path="/profile" element={<ProfilePage />} />
+
+        <Route path="/" element={<WorkoutsPage />} />
+        <Route path="/:day" element={<WorkoutPage />} />
+
+        <Route path="/setupplan" element={<SetupPage />} />
+        <Route path="/setupplan/:day" element={<SetupDayPage />} />
+        <Route
+          path="/setupplan/:day/chooseexercise"
+          element={<ChooseExercisePage />}
+        />
+
+        <Route path="/exercises" element={<ExercisesPage />} />
+        <Route path="/myownexercises" element={<MyOwnExercisesPage />} />
+        <Route path="/addexercise" element={<AddExercisePage />} />
+
+        <Route path="/nutrition" element={<NutritionPage />} />
       </Route>
-      {/* <Route element={<PrivateRoutes />}>
-        <Route path="/profile" element={<SettingsPage />} />
-        <Route path="/favorites" element={<ExercicesPage />} />
-        <Route path="/workouts" element={<WorkoutsPage />} />
-        <Route path="/workouts/:day" element={<WorkoutPage />} />
-      </Route>
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/exercices" element={<ExercicesPage />} />
-      <Route path="/addexercise" element={<AddExercisePage />} />
-      <Route path="*" element={<p>404</p>} /> */}
+
+      <Route path="*" element={<NotFoundPage />} />
     </>,
   ),
 );

@@ -24,6 +24,12 @@ const StyledInput = styled.input`
   letter-spacing: 0em;
   text-align: left;
   position: relative;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 const StyledInputLabel = styled.label`
@@ -104,6 +110,9 @@ interface CommonInputProps {
   name: string;
   value: string;
   readonly?: boolean;
+
+  minNumber?: number;
+  maxNumber?: number;
 }
 
 type multilineInputProps = CommonInputProps & {
@@ -149,6 +158,9 @@ export const Input: FC<InputProps> = ({
 
   multiline = false,
   readonly = false,
+
+  minNumber,
+  maxNumber,
 }) => {
   return (
     <StyledFormControl>
@@ -169,6 +181,8 @@ export const Input: FC<InputProps> = ({
             value={value}
             onChange={onChange as (e: ChangeEvent<HTMLInputElement>) => void}
             readOnly={readonly}
+            min={minNumber}
+            max={maxNumber}
           />
 
           {EndIcon && (

@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { Input } from "ui/Input";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Button } from "ui";
+import { Button } from "ui/Button";
 import { useState, FormEvent } from "react";
 import { AdditionalOption } from "pages/SignUpPage/components/AdditionalOption";
 import { useAuth } from "store/authStore";
 import { useFormAndValidation } from "hooks/useFormAndValidation";
+import { useNavigate } from "react-router-dom";
 
 const StyledSection = styled.section`
   width: 100%;
@@ -25,6 +26,8 @@ const ButtonWithMargins = styled(Button)`
 `;
 
 export const SignInForm = () => {
+  const navigate = useNavigate();
+
   const {
     values,
     handleChange,
@@ -64,7 +67,9 @@ export const SignInForm = () => {
           placeholder="Password"
           bottomButton={{
             text: "Forgot password?",
-            handler: () => {},
+            handler: () => {
+              navigate("/resetpassword");
+            },
           }}
           EndIcon={
             passwordVisibility ? <VisibilityOffIcon /> : <VisibilityIcon />

@@ -5,6 +5,7 @@ import { useExercises } from "store/exercisesStore";
 import { AnimatePresence } from "framer-motion";
 import { getExercisesRequest } from "utils/api";
 import { useQuery } from "@tanstack/react-query";
+import { IExercise } from "types";
 
 const StyledSection = styled.section`
   width: 100%;
@@ -24,11 +25,13 @@ const StyledList = styled.ul`
 
 interface ExercisesListProps {
   searchValue: string;
+  exercises: IExercise[];
 }
 
-export const ExercisesList: FC<ExercisesListProps> = ({ searchValue }) => {
-  const exercises = useExercises(state => state.exercises);
-
+export const ExercisesList: FC<ExercisesListProps> = ({
+  searchValue,
+  exercises,
+}) => {
   const filteredData = exercises.filter(item => {
     if (searchValue === "") {
       return item;

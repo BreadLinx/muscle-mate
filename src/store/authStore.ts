@@ -6,16 +6,18 @@ import {
   getMeRequest,
   signupRequest,
   signOutRequest,
+  createNewUserExerciseRequest,
 } from "utils/api";
 import { setCookie, deleteCookie } from "utils/cookies";
 import { IUser } from "types";
+import { IExercise } from "types";
 
 interface IAuthState {
   isUserAuthorized: boolean | undefined;
   name: string;
   email: string;
   avatarUrl: string;
-  favoriteExercices: string[];
+  userExercises: IExercise[];
   role: string;
   workouts: {
     monday: { name: string; exercices: string[] };
@@ -50,6 +52,12 @@ interface IAuthState {
     errorMessage: string | undefined;
     success: boolean;
   };
+  createUserExerciseRequestData: {
+    request: boolean;
+    error: boolean;
+    errorMessage: string | undefined;
+    success: boolean;
+  };
   signup: (data: { name: string; email: string; password: string }) => void;
   login: (data: { email: string; password: string }) => void;
   patchProfileAvatar: (fromData: FormData) => void;
@@ -57,6 +65,7 @@ interface IAuthState {
   setUserAuthorizedFalse: () => void;
   signout: () => void;
   resetUserInfo: () => void;
+  createUserExercise: (formData: FormData) => void;
 }
 
 export const useAuth = create<IAuthState>((set, get) => ({
@@ -64,7 +73,7 @@ export const useAuth = create<IAuthState>((set, get) => ({
   name: "",
   email: "",
   avatarUrl: "",
-  favoriteExercices: [],
+  userExercises: [],
   role: "",
   workouts: null,
 
@@ -87,6 +96,12 @@ export const useAuth = create<IAuthState>((set, get) => ({
     success: false,
   },
   getMeRequestData: {
+    request: false,
+    error: false,
+    errorMessage: "",
+    success: false,
+  },
+  createUserExerciseRequestData: {
     request: false,
     error: false,
     errorMessage: "",
@@ -129,7 +144,7 @@ export const useAuth = create<IAuthState>((set, get) => ({
       name: response.userData.name,
       email: response.userData.email,
       avatarUrl: `${SERVER_URL}${response.userData.avatarUrl}`,
-      favoriteExercices: [...response.userData.favoriteExercices],
+      userExercises: [...response.userData.userExercises],
       role: "",
       workouts: { ...response.userData.workouts },
 
@@ -166,6 +181,9 @@ export const useAuth = create<IAuthState>((set, get) => ({
       name: response.userData.name,
       email: response.userData.email,
       avatarUrl: `${SERVER_URL}${response.userData.avatarUrl}`,
+      userExercises: [...response.userData.userExercises],
+      role: "",
+      workouts: { ...response.userData.workouts },
 
       loginRequestData: {
         ...state.loginRequestData,
@@ -204,8 +222,9 @@ export const useAuth = create<IAuthState>((set, get) => ({
       const response = (await getMeRequest()) as any;
 
       if (
-        (!response.success && response.message === "invalid signature") ||
-        response.message === "jwt malformed"
+        !response.success &&
+        (response.message === "invalid signature" ||
+          response.message === "jwt malformed")
       ) {
         set(state => ({
           isUserAuthorized: false,
@@ -226,7 +245,7 @@ export const useAuth = create<IAuthState>((set, get) => ({
         email: response.userData.email,
         avatarUrl: `${SERVER_URL}${response.userData.avatarUrl}`,
         workouts: { ...response.userData.workouts },
-        favoriteExercices: [...response.userData.favoriteExercices],
+        userExercises: [...response.userData.userExercises],
         getMeRequestData: {
           ...state.getMeRequestData,
           request: false,
@@ -273,5 +292,27 @@ export const useAuth = create<IAuthState>((set, get) => ({
 
     deleteCookie("authToken");
     deleteCookie("refreshToken");
+  },
+
+  createUserExercise: async formData => {
+    set({
+      createUserExerciseRequestData: {
+        request: true,
+        success: false,
+        error: false,
+        errorMessage: "",
+      },
+    });
+    const response = (await createNewUserExerciseRequest(formData)) as any;
+    if (response.success) {
+      set(state => ({
+        userExercises: [...state.userExercises, ...response.data],
+        createUserExerciseRequestData: {
+          ...state.createUserExerciseRequestData,
+          request: false,
+          success: true,
+        },
+      }));
+    }
   },
 }));

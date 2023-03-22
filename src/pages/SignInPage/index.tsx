@@ -3,6 +3,7 @@ import { MainLayout } from "layouts/MainLayout";
 import { SignInForm } from "./modules/SignInForm";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "store/authStore";
+import { WithoutBottomNavigation } from "layouts/WithoutBottomNavigation";
 
 export const SignInPage = () => {
   const { state } = useLocation();
@@ -11,8 +12,8 @@ export const SignInPage = () => {
   return name ? (
     <Navigate to={state?.from?.pathname || "/"}></Navigate>
   ) : (
-    <MainLayout title="Sign in">
+    <WithoutBottomNavigation title="Sign in" withOutBottomButton>
       <SignInForm />
-    </MainLayout>
+    </WithoutBottomNavigation>
   );
 };

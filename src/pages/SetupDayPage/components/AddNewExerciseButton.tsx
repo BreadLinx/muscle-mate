@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import AddIcon from "@mui/icons-material/Add";
+import { useParams, useNavigate } from "react-router-dom";
 
 const StyledAddNewButton = styled.button`
   width: 100%;
@@ -30,14 +31,17 @@ const StyledText = styled.p`
 `;
 
 export const AddNewExerciseButton = () => {
+  const { day } = useParams();
+  const navigate = useNavigate();
+
   return (
     <StyledAddNewButton
       onClick={() => {
-        console.log("ПИЗДА");
+        navigate("chooseexercise");
       }}
     >
       <AddIcon />
-      <StyledText>Add new exercise</StyledText>
+      <StyledText>Add exercise</StyledText>
     </StyledAddNewButton>
   );
 };

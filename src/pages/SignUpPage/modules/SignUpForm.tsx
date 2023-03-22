@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Input } from "ui/Input";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Button } from "ui";
+import { Button } from "ui/Button";
 import { useState, FormEvent } from "react";
 import { AdditionalOption } from "../components/AdditionalOption";
 import { useAuth } from "store/authStore";

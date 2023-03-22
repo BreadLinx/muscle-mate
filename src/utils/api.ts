@@ -16,6 +16,7 @@ const LOGIN_URL = `${BASE_AUTH_URL}/login`;
 const SIGNOUT_URL = `${BASE_AUTH_URL}/signout`;
 const REFRESH_TOKEN_URL = `${BASE_AUTH_URL}/refreshToken`;
 const SELF_PROFILE_URL = `${BASE_AUTH_URL}/me`;
+const USER_EXERCISES_URL = `${BASE_API_URL}/auth/me/exercises`;
 
 const authApi = ky.create({
   hooks: {
@@ -78,6 +79,18 @@ export const createNewExerciseRequest = async (formData: FormData) => {
   try {
     return await authApi
       .post(EXERCISES_URL, {
+        body: formData,
+      })
+      .json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createNewUserExerciseRequest = async (formData: FormData) => {
+  try {
+    return await authApi
+      .post(USER_EXERCISES_URL, {
         body: formData,
       })
       .json();

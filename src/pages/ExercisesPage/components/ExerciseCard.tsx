@@ -112,13 +112,7 @@ export const ExerciseCard: FC<ExerciseCardProps> = ({
     >
       <StyledImage src={image} alt={title} />
 
-      <StyledTitleFlexWrapper>
-        <StyledTitle>{title}</StyledTitle>
-
-        <StyledAddButton>
-          <AddCircleOutlineIcon />
-        </StyledAddButton>
-      </StyledTitleFlexWrapper>
+      <StyledTitle>{title}</StyledTitle>
 
       <StyledTagsList>
         {groups.map(group => {

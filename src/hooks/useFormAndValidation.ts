@@ -7,6 +7,7 @@ export function useFormAndValidation() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     const form = e.target.closest("form");
     if (!form) {
       return;

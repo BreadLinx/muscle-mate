@@ -11,15 +11,6 @@ const StyledSection = styled.section`
   padding-right: 10px;
 `;
 
-const StyledFieldsWrapper = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  gap: 14px;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
-`;
-
 const musclesDrawerElementList = [
   "Chest",
   "Back",
@@ -29,12 +20,12 @@ const musclesDrawerElementList = [
   "Shoulders",
   "Arms",
 ];
-const equipmentDrawerElementList = [
-  "Body weight",
-  "Machine",
-  "Barbell",
-  "Dumbbells",
-];
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+`;
 
 interface FormsSectionProps {
   searchValue: string;
@@ -46,11 +37,10 @@ export const FormsSection: FC<FormsSectionProps> = ({
   handleSearch,
 }) => {
   const [musclesSelectValue, setMusclesSelectValue] = useState("");
-  const [equipmentSelectValue, setEquipmentSelectValue] = useState("");
 
   return (
     <StyledSection>
-      <form autoComplete="off">
+      <StyledForm autoComplete="off">
         <Input
           htmlId="search-input"
           placeholder="Search"
@@ -59,25 +49,14 @@ export const FormsSection: FC<FormsSectionProps> = ({
           onChange={handleSearch}
           StartIcon={<SearchIcon />}
         />
-
-        <StyledFieldsWrapper>
-          <Select
-            placeholder="Select muscles"
-            drawerInitialList={musclesDrawerElementList}
-            multichoice
-            inputValue={musclesSelectValue}
-            setInputValue={setMusclesSelectValue}
-          />
-
-          <Select
-            placeholder="Select equipment"
-            drawerInitialList={equipmentDrawerElementList}
-            multichoice
-            inputValue={equipmentSelectValue}
-            setInputValue={setEquipmentSelectValue}
-          />
-        </StyledFieldsWrapper>
-      </form>
+        <Select
+          placeholder="Select muscles"
+          drawerInitialList={musclesDrawerElementList}
+          multichoice
+          inputValue={musclesSelectValue}
+          setInputValue={setMusclesSelectValue}
+        />
+      </StyledForm>
     </StyledSection>
   );
 };

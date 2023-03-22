@@ -1,6 +1,5 @@
 export interface IExercise {
   _id: string;
-  success: boolean;
   name: string;
   tutorial: string;
   muscleGroups: string[];
@@ -19,7 +18,7 @@ export interface IUser {
   avatarUrl: string;
   createdAt: string;
   updatedAt: string;
-  favoriteExercices: string[];
+  userExercises: IExercise[];
   role: string;
   workouts: {
     monday: { name: ""; exercices: [] };
@@ -30,21 +29,5 @@ export interface IUser {
     saturday: { name: ""; exercices: [] };
     sunday: { name: ""; exercices: [] };
   };
-}
-
-export interface IPost {
-  _id: string;
-  text: string;
-  likes: string[];
-  comments: string[];
-  shares: string[];
-  viewsCount: number;
-  owner: {
-    _id: string;
-    name: string;
-    avatarUrl: string;
-  };
-  createdAt: string;
-  updatedAt: string;
   __v: number;
 }

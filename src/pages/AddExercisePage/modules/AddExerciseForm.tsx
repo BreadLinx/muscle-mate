@@ -6,7 +6,8 @@ import { useFormAndValidation } from "hooks/useFormAndValidation";
 import { Button } from "ui/Button";
 import { useState } from "react";
 import { FormEvent } from "react";
-import { useExercises } from "store/exercisesStore";
+import { useExercises } from "store";
+import { useAuth } from "store/authStore";
 
 const StyledSection = styled.section`
   width: 100%;
@@ -29,8 +30,18 @@ const musclesDrawerElementList = [
   "Arms",
 ];
 
+const StyledCautionText = styled.p`
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+  letter-spacing: 0;
+  text-align: left;
+  color: #7c7c7c;
+`;
+
 export const AddExerciseForm = () => {
-  const createExercise = useExercises(state => state.createExercise);
+  const createUserExercise = useAuth(state => state.createUserExercise);
+
   const { values, handleChange, handleTextAreaChange, resetForm } =
     useFormAndValidation();
   const [selectValue, setSelectValue] = useState("");
@@ -48,7 +59,7 @@ export const AddExerciseForm = () => {
       formData.append("description", values.descriptionInput || "");
       formData.append("groups", selectValue);
 
-      createExercise(formData);
+      createUserExercise(formData);
       resetForm();
       setSelectValue("");
       setFileValue(undefined);
@@ -59,6 +70,10 @@ export const AddExerciseForm = () => {
   return (
     <StyledSection>
       <StyledForm autoComplete="off" onSubmit={handleSubmit}>
+        <StyledCautionText>
+          * Exercise will me added in your own exercises list, you will be able
+          you use your own added exercises however you want.
+        </StyledCautionText>
         <ImageInput
           setFileValue={setFileValue}
           previewFileValue={previewFileValue}

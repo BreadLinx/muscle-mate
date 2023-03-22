@@ -2,17 +2,6 @@ import styled from "styled-components";
 import { FC, ReactNode } from "react";
 import { Header } from "modules/Header";
 
-interface WithoutBottomNavigationProps {
-  title: string;
-  titleFont?: number;
-  additionalLink?: {
-    text: string;
-    path: string;
-  };
-  arrowPath?: string;
-  children?: ReactNode;
-}
-
 const StyledMain = styled.main`
   height: calc(100vh - 168px);
   overflow-y: overlay;
@@ -37,12 +26,31 @@ const StyledActionButton = styled.button`
   text-align: left;
 `;
 
+interface WithoutBottomNavigationProps {
+  title: string;
+  titleFont?: number;
+  additionalLink?: {
+    text: string;
+    path: string;
+  };
+  arrowPath?: string;
+  children?: ReactNode;
+
+  withOutBottomButton?: boolean;
+  bottomButtonText?: string;
+  bottomButtonHandler?: () => void;
+}
+
 export const WithoutBottomNavigation: FC<WithoutBottomNavigationProps> = ({
   children,
   title,
   titleFont,
   additionalLink,
   arrowPath,
+
+  withOutBottomButton = false,
+  bottomButtonText = "Save changes",
+  bottomButtonHandler,
 }) => {
   return (
     <>
@@ -53,7 +61,11 @@ export const WithoutBottomNavigation: FC<WithoutBottomNavigationProps> = ({
         titleFont={titleFont}
       />
       <StyledMain>{children}</StyledMain>
-      <StyledActionButton>Save changes</StyledActionButton>
+      {!withOutBottomButton && (
+        <StyledActionButton onClick={bottomButtonHandler}>
+          {bottomButtonText}
+        </StyledActionButton>
+      )}
     </>
   );
 };

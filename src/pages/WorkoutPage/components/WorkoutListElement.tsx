@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Flex } from "ui";
+import { Flex } from "ui/Flex";
 import { FC } from "react";
 
 interface WorkoutListElementProps {
