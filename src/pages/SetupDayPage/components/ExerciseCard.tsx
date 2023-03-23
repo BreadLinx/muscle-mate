@@ -4,7 +4,10 @@ import { Input } from "ui/Input";
 import { Select } from "ui/Select";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useFormAndValidation } from "hooks/useFormAndValidation";
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useAuth } from "store";
+import { Tdays, IUserWorkoutExercise } from "types";
 
 const StyledCard = styled.article`
   padding: 10px;
@@ -42,11 +45,30 @@ const StyledForm = styled.form`
 `;
 
 interface ExerciseCardProps {
-  name: string;
-  image: string;
+  cardIndex: number;
+  exercise: IUserWorkoutExercise;
 }
 
-export const ExerciseCard: FC<ExerciseCardProps> = ({ name, image }) => {
+export const ExerciseCard: FC<ExerciseCardProps> = ({
+  exercise,
+  cardIndex,
+}) => {
+  const { day } = useParams() as { day: Tdays };
+  const { deleteClientExercise, setClientExerciseSetting } = useAuth(
+    state => state,
+  );
+
+  useEffect(() => {
+    setValues({
+      initialWeight: `${exercise.weight === 0 ? "" : exercise.weight}`,
+      weightGain: `${
+        exercise.weightIncrease === 0 ? "" : exercise.weightIncrease
+      }`,
+      sets: `${exercise.repeats === 0 ? "" : exercise.repeats}`,
+      reps: `${exercise.timesPerRepeat === 0 ? "" : exercise.timesPerRepeat}`,
+    });
+  }, []);
+
   const {
     values,
     handleChange,
@@ -57,20 +79,73 @@ export const ExerciseCard: FC<ExerciseCardProps> = ({ name, image }) => {
     setIsValid,
   } = useFormAndValidation();
 
+  const handleSettingsChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    handleChange(e);
+    switch (name) {
+      case "initialWeight":
+        setClientExerciseSetting({
+          day,
+          cardIndex,
+          initialWeight: value,
+          weightGain: values.weightGain,
+          repeats: values.sets,
+          timesPerRepeat: values.reps,
+        });
+        break;
+      case "weightGain":
+        setClientExerciseSetting({
+          day,
+          cardIndex,
+          initialWeight: values.initialWeight,
+          weightGain: value,
+          repeats: values.sets,
+          timesPerRepeat: values.reps,
+        });
+        break;
+      case "sets":
+        setClientExerciseSetting({
+          day,
+          cardIndex,
+          initialWeight: values.initialWeight,
+          weightGain: values.weightGain,
+          repeats: value,
+          timesPerRepeat: values.reps,
+        });
+        break;
+      case "reps":
+        setClientExerciseSetting({
+          day,
+          cardIndex,
+          initialWeight: values.initialWeight,
+          weightGain: values.weightGain,
+          repeats: values.sets,
+          timesPerRepeat: value,
+        });
+        break;
+    }
+  };
+
   return (
     <StyledCard>
-      <StyledImage src={image} alt={name} />
+      <StyledImage src={exercise.image} alt={exercise.name} />
       <StyledForm>
         <Flex d="row" j="space-between">
-          <StyledCardTitle>{name}</StyledCardTitle>
-          <RemoveIcon />
+          <StyledCardTitle>{exercise.name}</StyledCardTitle>
+          <RemoveIcon
+            onClick={() => {
+              deleteClientExercise(day as Tdays, cardIndex);
+              console.log(cardIndex, day);
+            }}
+          />
         </Flex>
         <Input
           htmlId="initial-weight-input"
           placeholder="Set initial weight"
           type="number"
           name="initialWeight"
-          onChange={handleChange}
+          onChange={handleSettingsChange}
           value={values.initialWeight || ""}
           minNumber={0}
           maxNumber={1000}
@@ -80,7 +155,7 @@ export const ExerciseCard: FC<ExerciseCardProps> = ({ name, image }) => {
           placeholder="Set weight gain"
           type="number"
           name="weightGain"
-          onChange={handleChange}
+          onChange={handleSettingsChange}
           value={values.weightGain || ""}
           minNumber={0}
           maxNumber={50}
@@ -90,7 +165,7 @@ export const ExerciseCard: FC<ExerciseCardProps> = ({ name, image }) => {
           placeholder="Set sets"
           type="number"
           name="sets"
-          onChange={handleChange}
+          onChange={handleSettingsChange}
           value={values.sets || ""}
           minNumber={0}
           maxNumber={200}
@@ -100,7 +175,7 @@ export const ExerciseCard: FC<ExerciseCardProps> = ({ name, image }) => {
           placeholder="Set reps per set"
           type="number"
           name="reps"
-          onChange={handleChange}
+          onChange={handleSettingsChange}
           value={values.reps || ""}
           minNumber={0}
           maxNumber={200}

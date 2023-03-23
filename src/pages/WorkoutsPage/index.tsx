@@ -74,43 +74,43 @@ export const WorkoutsPage = () => {
         };
 
         switch (index) {
-          case 1:
+          case 0:
             dayElement = {
               name: workouts.monday.name,
               exercises: [...workouts.monday.exercises],
             };
             break;
-          case 2:
+          case 1:
             dayElement = {
               name: workouts.tuesday.name,
               exercises: [...workouts.tuesday.exercises],
             };
             break;
-          case 3:
+          case 2:
             dayElement = {
               name: workouts.wednesday.name,
               exercises: [...workouts.wednesday.exercises],
             };
             break;
-          case 4:
+          case 3:
             dayElement = {
               name: workouts.thursday.name,
               exercises: [...workouts.thursday.exercises],
             };
             break;
-          case 5:
+          case 4:
             dayElement = {
               name: workouts.friday.name,
               exercises: [...workouts.friday.exercises],
             };
             break;
-          case 6:
+          case 5:
             dayElement = {
               name: workouts.saturday.name,
               exercises: [...workouts.saturday.exercises],
             };
             break;
-          case 0:
+          case 6:
             dayElement = {
               name: workouts.sunday.name,
               exercises: [...workouts.sunday.exercises],

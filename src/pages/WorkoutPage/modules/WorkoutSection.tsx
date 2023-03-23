@@ -1,24 +1,32 @@
+import { FC } from "react";
 import styled from "styled-components";
-import { WorkoutAgenda } from "../components/WorkoutAgenda";
-import { WorkoutList } from "../components/WorkoutList";
-import { Button } from "@mui/material";
+import { ExerciseCard } from "../components/ExerciseCard";
+import { useAuth } from "store";
+import { useParams } from "react-router-dom";
+import { Tdays } from "types";
 
 const StyledSection = styled.section`
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 100%;
+
   display: flex;
   flex-flow: column nowrap;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  gap: 40px;
+  gap: 20px;
+  align-items: center;
 `;
 
-export const WorkoutSection = () => {
+export const WorkoutSection: FC = () => {
+  const { day } = useParams() as { day: Tdays };
+  const workouts = useAuth(state => state.workouts);
+  const exercises = workouts && workouts[day].exercises;
+
   return (
     <StyledSection>
-      <WorkoutAgenda />
-      <Button variant="outlined">Start workout</Button>
-      <WorkoutList />
-      <Button variant="outlined">End workout</Button>
+      {exercises.map(exercise => {
+        return <ExerciseCard key={exercise._id} exercise={exercise} />;
+      })}
     </StyledSection>
   );
 };

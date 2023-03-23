@@ -1,7 +1,7 @@
 import ky from "ky";
 import { getCookie, setCookie, deleteCookie } from "utils/cookies";
 import { useAuth } from "store/authStore";
-import { IExercise } from "types";
+import { IExercise, IWorkoutDay } from "types";
 
 // export const SERVER_URL = "http://localhost:5000";
 export const SERVER_URL = "https://muscle-mate-server.onrender.com";
@@ -16,7 +16,8 @@ const LOGIN_URL = `${BASE_AUTH_URL}/login`;
 const SIGNOUT_URL = `${BASE_AUTH_URL}/signout`;
 const REFRESH_TOKEN_URL = `${BASE_AUTH_URL}/refreshToken`;
 const SELF_PROFILE_URL = `${BASE_AUTH_URL}/me`;
-const USER_EXERCISES_URL = `${BASE_API_URL}/auth/me/exercises`;
+const USER_EXERCISES_URL = `${BASE_AUTH_URL}/me/exercises`;
+const USER_WORKOUTS_DAY_CHANGE_URL = `${BASE_AUTH_URL}/me/workouts/changeday`;
 
 const authApi = ky.create({
   hooks: {
@@ -156,6 +157,17 @@ export const signOutRequest = async () => {
   return authApi
     .post(SIGNOUT_URL, {
       json: { refreshToken: getCookie("refreshToken") },
+      throwHttpErrors: false,
+    })
+    .json();
+};
+
+export const applyWorkoutChangesRequest = async (
+  day: IWorkoutDay & { dayName: string },
+) => {
+  return authApi
+    .post(USER_WORKOUTS_DAY_CHANGE_URL, {
+      json: { day },
       throwHttpErrors: false,
     })
     .json();

@@ -183,6 +183,7 @@ export const Input: FC<InputProps> = ({
             readOnly={readonly}
             min={minNumber}
             max={maxNumber}
+            pattern={type === "number" ? "d*" : undefined}
           />
 
           {EndIcon && (

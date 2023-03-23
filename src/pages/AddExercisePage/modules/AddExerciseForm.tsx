@@ -8,6 +8,7 @@ import { useState } from "react";
 import { FormEvent } from "react";
 import { useExercises } from "store";
 import { useAuth } from "store/authStore";
+import { useNavigate } from "react-router-dom";
 
 const StyledSection = styled.section`
   width: 100%;
@@ -40,6 +41,8 @@ const StyledCautionText = styled.p`
 `;
 
 export const AddExerciseForm = () => {
+  const navigate = useNavigate();
+
   const createUserExercise = useAuth(state => state.createUserExercise);
 
   const { values, handleChange, handleTextAreaChange, resetForm } =
@@ -64,6 +67,7 @@ export const AddExerciseForm = () => {
       setSelectValue("");
       setFileValue(undefined);
       setPreviewFileValue("");
+      navigate("/myownexercises");
     }
   };
 

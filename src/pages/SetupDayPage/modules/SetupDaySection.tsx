@@ -29,34 +29,31 @@ const musclesDrawerElementList = [
 ];
 
 interface SetupDaySectionProps {
-  muscleName?: string;
   dayExercises?: IUserWorkoutExercise[];
+  selectValue: string;
+  setSelectValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const SetupDaySection: FC<SetupDaySectionProps> = ({
-  muscleName,
   dayExercises,
+  selectValue,
+  setSelectValue,
 }) => {
-  const [musclesSelectValue, setMusclesSelectValue] = useState(
-    muscleName ? muscleName : "",
-  );
-
   return (
     <StyledSection>
       <Select
         placeholder="Select muscles"
         drawerInitialList={musclesDrawerElementList}
-        multichoice
-        inputValue={musclesSelectValue}
-        setInputValue={setMusclesSelectValue}
+        inputValue={selectValue}
+        setInputValue={setSelectValue}
       />
       {dayExercises &&
         dayExercises.map((exercise, index) => {
           return (
             <ExerciseCard
-              key={exercise.exerciseId + index}
-              name={exercise.name}
-              image={exercise.image}
+              key={exercise._id + exercise.exerciseId}
+              exercise={exercise}
+              cardIndex={index}
             />
           );
         })}

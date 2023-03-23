@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { MainLayout } from "layouts/MainLayout";
 import { WorkoutWeek } from "pages/WorkoutsPage/modules/WorkoutWeek";
 import { DayStates } from "pages/WorkoutsPage/components/WorkoutDay";
+import { useMemo } from "react";
+import { useAuth } from "store";
+import { IUserWorkoutExercise } from "types";
 
 const WorkoutWeekParams = [
   {
@@ -48,7 +51,77 @@ const WorkoutWeekParams = [
   },
 ];
 
+const date = new Date();
+
 export const SetupPage = () => {
+  const { workouts } = useAuth(state => state);
+
+  const week = useMemo(() => {
+    let actualWeek: any = [...WorkoutWeekParams];
+
+    if (workouts) {
+      actualWeek = WorkoutWeekParams.map((item, index) => {
+        let dayElement: { name: string; exercises: IUserWorkoutExercise[] } = {
+          name: "",
+          exercises: [],
+        };
+
+        switch (index) {
+          case 0:
+            dayElement = {
+              name: workouts.monday.name,
+              exercises: [...workouts.monday.exercises],
+            };
+            break;
+          case 1:
+            dayElement = {
+              name: workouts.tuesday.name,
+              exercises: [...workouts.tuesday.exercises],
+            };
+            break;
+          case 2:
+            dayElement = {
+              name: workouts.wednesday.name,
+              exercises: [...workouts.wednesday.exercises],
+            };
+            break;
+          case 3:
+            dayElement = {
+              name: workouts.thursday.name,
+              exercises: [...workouts.thursday.exercises],
+            };
+            break;
+          case 4:
+            dayElement = {
+              name: workouts.friday.name,
+              exercises: [...workouts.friday.exercises],
+            };
+            break;
+          case 5:
+            dayElement = {
+              name: workouts.saturday.name,
+              exercises: [...workouts.saturday.exercises],
+            };
+            break;
+          case 6:
+            dayElement = {
+              name: workouts.sunday.name,
+              exercises: [...workouts.sunday.exercises],
+            };
+            break;
+        }
+
+        return {
+          ...item,
+          group: dayElement.name,
+          exercises: [...dayElement.exercises],
+        };
+      });
+    }
+
+    return actualWeek;
+  }, [workouts]);
+
   return (
     <MainLayout
       title="Set up plan"
@@ -58,7 +131,7 @@ export const SetupPage = () => {
         path: "/",
       }}
     >
-      <WorkoutWeek week={WorkoutWeekParams} />
+      <WorkoutWeek week={week} />
     </MainLayout>
   );
 };

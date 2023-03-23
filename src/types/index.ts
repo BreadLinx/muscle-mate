@@ -22,9 +22,11 @@ export interface IExercise {
 }
 
 export interface IUserWorkoutExercise {
+  _id?: string;
   exerciseId: string;
   name: string;
   image: string;
+
   weight: number;
   weightIncrease: number;
   repeats: number;

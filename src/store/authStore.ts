@@ -7,6 +7,7 @@ import {
   signupRequest,
   signOutRequest,
   createNewUserExerciseRequest,
+  applyWorkoutChangesRequest,
 } from "utils/api";
 import { setCookie, deleteCookie } from "utils/cookies";
 import { IUser } from "types";
@@ -25,6 +26,7 @@ interface IAuthState {
   signoutRequestData: IRequestStates;
   getMeRequestData: IRequestStates;
   createUserExerciseRequestData: IRequestStates;
+  applyWorkoutChangesRequestData: IRequestStates;
 
   signup: (data: { name: string; email: string; password: string }) => void;
   login: (data: { email: string; password: string }) => void;
@@ -36,6 +38,17 @@ interface IAuthState {
   createUserExercise: (formData: FormData) => void;
 
   addClientExercise: (day: Tdays, exerciseCard: IExercise) => void;
+  deleteClientExercise: (day: Tdays, cardIndex: number) => void;
+  applyWorkoutChanges: (day: Tdays) => void;
+  changeWorkoutDayGroupClient: (day: Tdays, group: string) => void;
+  setClientExerciseSetting: (options: {
+    day: Tdays;
+    cardIndex: number;
+    initialWeight: string;
+    weightGain: string;
+    repeats: string;
+    timesPerRepeat: string;
+  }) => void;
 }
 
 export const useAuth = create<IAuthState>((set, get) => ({
@@ -108,6 +121,12 @@ export const useAuth = create<IAuthState>((set, get) => ({
     success: false,
   },
   createUserExerciseRequestData: {
+    request: false,
+    error: false,
+    errorMessage: "",
+    success: false,
+  },
+  applyWorkoutChangesRequestData: {
     request: false,
     error: false,
     errorMessage: "",
@@ -312,7 +331,7 @@ export const useAuth = create<IAuthState>((set, get) => ({
     const response = (await createNewUserExerciseRequest(formData)) as any;
     if (response.success) {
       set(state => ({
-        userExercises: [...state.userExercises, ...response.data],
+        userExercises: [...response.data.userExercises],
         createUserExerciseRequestData: {
           ...state.createUserExerciseRequestData,
           request: false,
@@ -322,15 +341,32 @@ export const useAuth = create<IAuthState>((set, get) => ({
     }
   },
 
-  addClientExercise: (day, exerciseCard) => {
-    console.log(day, exerciseCard);
-
+  changeWorkoutDayGroupClient: (day, group) => {
     set(state => {
       if (state.workouts) {
         const tempWorkout: Record<Tdays, IWorkoutDay> = structuredClone(
           state.workouts,
         );
-        console.log(tempWorkout[day]);
+
+        tempWorkout[day] = {
+          ...tempWorkout[day],
+          name: group,
+        };
+
+        return {
+          workouts: { ...tempWorkout },
+        };
+      }
+      return { ...state };
+    });
+  },
+
+  addClientExercise: (day, exerciseCard) => {
+    set(state => {
+      if (state.workouts) {
+        const tempWorkout: Record<Tdays, IWorkoutDay> = structuredClone(
+          state.workouts,
+        );
 
         tempWorkout[day] = {
           ...tempWorkout[day],
@@ -356,7 +392,81 @@ export const useAuth = create<IAuthState>((set, get) => ({
       return { ...state };
     });
   },
-  setClientExerciseSetting: () => {
-    set(state => ({}));
+
+  setClientExerciseSetting: ({
+    day,
+    cardIndex,
+    initialWeight,
+    weightGain,
+    repeats,
+    timesPerRepeat,
+  }) => {
+    set(state => {
+      if (state.workouts) {
+        const tempWorkout: Record<Tdays, IWorkoutDay> = structuredClone(
+          state.workouts,
+        );
+        tempWorkout[day].exercises[cardIndex] = {
+          ...tempWorkout[day].exercises[cardIndex],
+          repeats: Number(repeats),
+          timesPerRepeat: Number(timesPerRepeat),
+          weight: Number(initialWeight),
+          weightIncrease: Number(weightGain),
+        };
+
+        return {
+          workouts: { ...tempWorkout },
+        };
+      }
+      return { ...state };
+    });
+  },
+
+  deleteClientExercise: (day, cardIndex) => {
+    set(state => {
+      if (state.workouts) {
+        const tempWorkout: Record<Tdays, IWorkoutDay> = structuredClone(
+          state.workouts,
+        );
+
+        const tempExercises = [...tempWorkout[day].exercises];
+        tempExercises.splice(cardIndex, 1);
+
+        tempWorkout[day] = {
+          ...tempWorkout[day],
+          exercises: [...tempExercises],
+        };
+
+        return {
+          workouts: { ...tempWorkout },
+        };
+      }
+      return { ...state };
+    });
+  },
+
+  applyWorkoutChanges: async day => {
+    set({
+      applyWorkoutChangesRequestData: {
+        request: true,
+        success: false,
+        error: false,
+        errorMessage: "",
+      },
+    });
+    const fullDay = { dayName: day, ...get().workouts[day] };
+
+    const response = (await applyWorkoutChangesRequest(fullDay)) as any;
+    console.log(response);
+    // if (response.success) {
+    //   set(state => ({
+    //     userExercises: [...state.userExercises, ...response.data],
+    //     applyWorkoutChangesRequestData: {
+    //       ...state.applyWorkoutChangesRequestData,
+    //       request: false,
+    //       success: true,
+    //     },
+    //   }));
+    // }
   },
 }));
