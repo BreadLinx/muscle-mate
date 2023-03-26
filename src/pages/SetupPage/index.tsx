@@ -128,7 +128,7 @@ export const SetupPage = () => {
       titleFont={30}
       additionalLink={{
         text: "Workouts",
-        path: "/",
+        path: "/workouts",
       }}
     >
       <WorkoutWeek week={week} />

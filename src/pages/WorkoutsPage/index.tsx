@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { WorkoutWeek } from "./modules/WorkoutWeek";
 import { MainLayout } from "layouts/MainLayout";
 import { DayStates } from "pages/WorkoutsPage/components/WorkoutDay";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useAuth } from "store/authStore";
 import { IUserWorkoutExercise } from "types";
 
@@ -10,49 +10,49 @@ const WorkoutWeekParams = [
   {
     name: "Monday",
     state: DayStates.Default,
-    path: "/monday",
+    path: "/workouts/monday",
     group: "",
     exercises: [] as IUserWorkoutExercise[],
   },
   {
     name: "Tuesday",
     state: DayStates.Default,
-    path: "/tuesday",
+    path: "/workouts/tuesday",
     group: "",
     exercises: [] as IUserWorkoutExercise[],
   },
   {
     name: "Wednesday",
     state: DayStates.Default,
-    path: "/wednesday",
+    path: "/workouts/wednesday",
     group: "",
     exercises: [] as IUserWorkoutExercise[],
   },
   {
     name: "Thursday",
     state: DayStates.Default,
-    path: "/thursday",
+    path: "/workouts/thursday",
     group: "",
     exercises: [] as IUserWorkoutExercise[],
   },
   {
     name: "Friday",
     state: DayStates.Default,
-    path: "/friday",
+    path: "/workouts/friday",
     group: "",
     exercises: [] as IUserWorkoutExercise[],
   },
   {
     name: "Saturday",
     state: DayStates.Default,
-    path: "/saturday",
+    path: "/workouts/saturday",
     group: "",
     exercises: [] as IUserWorkoutExercise[],
   },
   {
     name: "Sunday",
     state: DayStates.Default,
-    path: "/sunday",
+    path: "/workouts/sunday",
     group: "",
     exercises: [] as IUserWorkoutExercise[],
   },

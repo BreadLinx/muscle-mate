@@ -338,6 +338,36 @@ export const useAuth = create<IAuthState>((set, get) => ({
           success: true,
         },
       }));
+
+      setTimeout(() => {
+        set({
+          createUserExerciseRequestData: {
+            request: false,
+            success: false,
+            error: false,
+            errorMessage: "",
+          },
+        });
+      }, 2000);
+    } else {
+      set(state => ({
+        createUserExerciseRequestData: {
+          ...state.createUserExerciseRequestData,
+          request: false,
+          error: true,
+        },
+      }));
+
+      setTimeout(() => {
+        set({
+          createUserExerciseRequestData: {
+            request: false,
+            success: false,
+            error: false,
+            errorMessage: "",
+          },
+        });
+      }, 2000);
     }
   },
 
@@ -457,16 +487,26 @@ export const useAuth = create<IAuthState>((set, get) => ({
     const fullDay = { dayName: day, ...get().workouts[day] };
 
     const response = (await applyWorkoutChangesRequest(fullDay)) as any;
-    console.log(response);
-    // if (response.success) {
-    //   set(state => ({
-    //     userExercises: [...state.userExercises, ...response.data],
-    //     applyWorkoutChangesRequestData: {
-    //       ...state.applyWorkoutChangesRequestData,
-    //       request: false,
-    //       success: true,
-    //     },
-    //   }));
-    // }
+
+    if (response.success) {
+      set(state => ({
+        applyWorkoutChangesRequestData: {
+          ...state.applyWorkoutChangesRequestData,
+          request: false,
+          success: true,
+        },
+      }));
+
+      setTimeout(() => {
+        set({
+          applyWorkoutChangesRequestData: {
+            request: false,
+            success: false,
+            error: false,
+            errorMessage: "",
+          },
+        });
+      }, 2000);
+    }
   },
 }));

@@ -1,14 +1,10 @@
-import styled from "styled-components";
 import { useState, ChangeEvent } from "react";
-import { MainLayout } from "layouts/MainLayout";
-import AddIcon from "@mui/icons-material/Add";
 import { useNavigate, useParams } from "react-router-dom";
-import { WithoutBottomNavigation } from "layouts/WithoutBottomNavigation";
+import { BranchLayout } from "layouts/BranchLayout";
 import { FilterFormSection } from "./modules/FilterFormSection";
 import { ContentSection } from "./modules/ContentSection";
 import { useAuth, useExercises } from "store";
 import { IExercise } from "types";
-import { Tdays } from "types";
 
 export const ChooseExercisePage = () => {
   const navigate = useNavigate();
@@ -26,20 +22,22 @@ export const ChooseExercisePage = () => {
     setSearchValue(lowerCase);
   };
 
+  const handlePageSubmit = () => {
+    let card = userExercises.find(item => item._id === checkedCard);
+    if (!card) {
+      card = commomExercises.find(item => item._id === checkedCard);
+    }
+    addClientExercise(day, card as IExercise);
+    navigate(-1);
+  };
+
   return (
-    <WithoutBottomNavigation
+    <BranchLayout
       title="Choose exercise"
       arrowPath={`/setupplan/${day}`}
-      bottomButtonText="Choose"
-      bottomButtonHandler={() => {
-        let card = userExercises.find(item => item._id === checkedCard);
-        if (!card) {
-          card = commomExercises.find(item => item._id === checkedCard);
-        }
-
-        addClientExercise(day, card as IExercise);
-
-        navigate(-1);
+      submitButonOptions={{
+        text: "Choose",
+        handleClick: handlePageSubmit,
       }}
     >
       <FilterFormSection
@@ -57,6 +55,6 @@ export const ChooseExercisePage = () => {
         checked={checkedCard}
         setChecked={setCheckedCard}
       />
-    </WithoutBottomNavigation>
+    </BranchLayout>
   );
 };

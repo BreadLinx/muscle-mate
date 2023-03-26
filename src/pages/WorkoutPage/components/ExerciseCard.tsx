@@ -17,6 +17,7 @@ const StyledCard = styled.div`
   flex-flow: row nowrap;
   align-items: center;
   gap: 20px;
+  transition: all 0.2s ease;
 `;
 
 const StyledImage = styled.img`
@@ -50,6 +51,8 @@ interface ExerciseCardProps {
 export const ExerciseCard: FC<ExerciseCardProps> = ({ exercise }) => {
   const [checked, setChecked] = useState(false);
 
+  const exerciseString = `${exercise.repeats} sets of ${exercise.timesPerRepeat} reps, ${exercise.weight}kg + ${exercise.weightIncrease} each set`;
+
   return (
     <StyledCard
       checked={checked}
@@ -60,7 +63,9 @@ export const ExerciseCard: FC<ExerciseCardProps> = ({ exercise }) => {
       <StyledImage src={exercise.image} alt={exercise.name} />
       <Flex d="column" g={10}>
         <StyledCardTitle>{exercise.name}</StyledCardTitle>
-        <StyledCardText>{`${exercise.repeats} sets of ${exercise.timesPerRepeat} reps, ${exercise.weight} kg + ${exercise.weightIncrease} each set`}</StyledCardText>
+        {!!exercise.repeats && (
+          <StyledCardText>{exerciseString}</StyledCardText>
+        )}
       </Flex>
     </StyledCard>
   );

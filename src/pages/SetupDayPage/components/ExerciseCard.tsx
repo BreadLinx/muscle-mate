@@ -136,7 +136,7 @@ export const ExerciseCard: FC<ExerciseCardProps> = ({
           <RemoveIcon
             onClick={() => {
               deleteClientExercise(day as Tdays, cardIndex);
-              console.log(cardIndex, day);
+              // console.log(cardIndex, day);
             }}
           />
         </Flex>

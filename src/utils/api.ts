@@ -93,6 +93,7 @@ export const createNewUserExerciseRequest = async (formData: FormData) => {
     return await authApi
       .post(USER_EXERCISES_URL, {
         body: formData,
+        throwHttpErrors: false,
       })
       .json();
   } catch (err) {

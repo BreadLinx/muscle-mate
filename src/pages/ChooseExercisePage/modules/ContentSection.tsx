@@ -8,8 +8,10 @@ const StyledSection = styled.section`
   width: 100%;
   padding-left: 10px;
   padding-right: 10px;
-  height: calc(100vh - 249px);
+
   margin-top: 10px;
+
+  padding-bottom: 95px;
 `;
 
 const StyledList = styled.ul`

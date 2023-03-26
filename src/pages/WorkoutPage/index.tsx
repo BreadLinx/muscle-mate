@@ -1,6 +1,5 @@
-import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
-import { WithoutBottomNavigation } from "layouts/WithoutBottomNavigation";
+import { BranchLayout } from "layouts/BranchLayout";
 import { WorkoutSection } from "./modules/WorkoutSection";
 import { useAuth } from "store";
 import { Tdays } from "types";
@@ -13,16 +12,18 @@ export const WorkoutPage = () => {
   const properDay = workouts && workouts[day];
 
   return (
-    <WithoutBottomNavigation
+    <BranchLayout
       title={properDay.name ? `${titleDay}, ${properDay.name} day` : titleDay}
       titleFont={25}
-      arrowPath={`/`}
-      bottomButtonText="Finish workout"
-      bottomButtonHandler={() => {
-        navigate(-1);
+      arrowPath={`/workouts`}
+      submitButonOptions={{
+        text: "Finish workout",
+        handleClick: () => {
+          navigate(-1);
+        },
       }}
     >
       <WorkoutSection />
-    </WithoutBottomNavigation>
+    </BranchLayout>
   );
 };

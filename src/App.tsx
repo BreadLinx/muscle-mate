@@ -1,13 +1,13 @@
+import styled from "styled-components";
 import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  useLocation,
+  Navigate,
 } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
-import styled from "styled-components";
-import { useEffect } from "react";
+
+import { useEffect, useState } from "react";
 
 import {
   WorkoutsPage,
@@ -27,11 +27,11 @@ import {
   NotFoundPage,
 } from "pages";
 
-import { getCookie, deleteCookie } from "utils/cookies";
-import { getExercisesRequest } from "utils/api";
+import { getCookie } from "utils/cookies";
 
 import { useAuth, useExercises } from "store";
 import { PrivateRoutes } from "modules/PrivateRoutes";
+import { RootContainer } from "modules/RootContainer";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,21 +43,44 @@ const router = createBrowserRouter(
       <Route path="/resetpasswordcode" element={<ResetPasswordCodePage />} />
 
       <Route element={<PrivateRoutes />}>
+        <Route path="/" element={<Navigate to="/workouts" />} />
         <Route path="/profile" element={<ProfilePage />} />
 
-        <Route path="/" element={<WorkoutsPage />} />
-        <Route path="/:day" element={<WorkoutPage />} />
-
-        <Route path="/setupplan" element={<SetupPage />} />
-        <Route path="/setupplan/:day" element={<SetupDayPage />} />
         <Route
-          path="/setupplan/:day/chooseexercise"
-          element={<ChooseExercisePage />}
-        />
+          path="/workouts"
+          element={
+            <RootContainer mainPath="/workouts" secondPath="/workouts/:day" />
+          }
+        >
+          <Route index element={<WorkoutsPage />} />
+          <Route path=":day" element={<WorkoutPage />} />
+        </Route>
+
+        <Route
+          path="/setupplan"
+          element={
+            <RootContainer mainPath="/setupplan" secondPath="/setupplan/:day" />
+          }
+        >
+          <Route index element={<SetupPage />} />
+          <Route path=":day" element={<SetupDayPage />} />
+          <Route path=":day/chooseexercise" element={<ChooseExercisePage />} />
+        </Route>
 
         <Route path="/exercises" element={<ExercisesPage />} />
-        <Route path="/myownexercises" element={<MyOwnExercisesPage />} />
-        <Route path="/addexercise" element={<AddExercisePage />} />
+
+        <Route
+          path="/exercises/my"
+          element={
+            <RootContainer
+              mainPath="/exercises/my"
+              secondPath="/exercises/my/add"
+            />
+          }
+        >
+          <Route index element={<MyOwnExercisesPage />} />
+          <Route path="add" element={<AddExercisePage />} />
+        </Route>
 
         <Route path="/nutrition" element={<NutritionPage />} />
       </Route>
@@ -66,6 +89,13 @@ const router = createBrowserRouter(
     </>,
   ),
 );
+
+const AppWrapper = styled.div`
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+`;
 
 export const App = () => {
   const { getMe, setUserAuthorizedFalse } = useAuth(state => state);
@@ -81,5 +111,9 @@ export const App = () => {
     }
   }, []);
 
-  return <RouterProvider router={router} />;
+  return (
+    <AppWrapper>
+      <RouterProvider router={router} />
+    </AppWrapper>
+  );
 };

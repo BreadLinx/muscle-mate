@@ -12,6 +12,8 @@ const StyledListElement = styled(motion.li)`
   border-radius: 20px;
   padding: 10px;
 
+  transition: all 0.3s ease;
+
   display: grid;
   grid-template-areas:
     "image title"

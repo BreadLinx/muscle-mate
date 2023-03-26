@@ -10,12 +10,12 @@ const StyledSection = styled.section`
   width: 100%;
   padding-left: 10px;
   padding-right: 10px;
-  height: 100%;
 
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   gap: 20px;
+  padding-bottom: 95px;
 `;
 
 const musclesDrawerElementList = [

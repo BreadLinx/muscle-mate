@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { MainLayout } from "layouts/MainLayout";
 import { useAuth } from "store/authStore";
 import { FormsSection } from "pages/ExercisesPage/modules/FormsSection";
@@ -27,7 +26,7 @@ export const MyOwnExercisesPage = () => {
       }}
       endIcon={<AddIcon />}
       onIconClick={() => {
-        navigate("/addexercise");
+        navigate("/exercises/my/add");
       }}
     >
       <FormsSection
