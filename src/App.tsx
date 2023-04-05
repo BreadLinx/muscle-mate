@@ -25,6 +25,7 @@ import {
   ResetPasswordPage,
   ResetPasswordCodePage,
   NotFoundPage,
+  LoadingPage,
 } from "pages";
 
 import { getCookie } from "utils/cookies";

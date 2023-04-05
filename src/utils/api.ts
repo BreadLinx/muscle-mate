@@ -51,6 +51,7 @@ const authApi = ky.create({
     ],
   },
   headers: { Authorization: `Bearer ${getCookie("authToken")}` },
+  throwHttpErrors: false,
 });
 
 export const patchProfileAvatarRequest = async (formData: FormData) => {
@@ -67,7 +68,11 @@ export const patchProfileAvatarRequest = async (formData: FormData) => {
 
 export const getExercisesRequest = async () => {
   try {
-    return (await ky.get(EXERCISES_URL).json()) as {
+    return (await ky
+      .get(EXERCISES_URL, {
+        timeout: 2000000000,
+      })
+      .json()) as {
       success: boolean;
       data: IExercise[];
     };
@@ -150,6 +155,7 @@ export const getMeRequest = async () => {
   return authApi
     .get(SELF_PROFILE_URL, {
       throwHttpErrors: false,
+      timeout: 2000000000,
     })
     .json();
 };

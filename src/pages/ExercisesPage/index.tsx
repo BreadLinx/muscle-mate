@@ -1,12 +1,11 @@
 import { MainLayout } from "layouts/MainLayout";
 import { FormsSection } from "./modules/FormsSection";
 import { ExercisesList } from "./modules/ExercisesList";
-import { useNavigate } from "react-router-dom";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { useExercises } from "store/exercisesStore";
 
 export const ExercisesPage = () => {
-  const exercises = useExercises(state => state.exercises);
+  const { exercises, getExercises } = useExercises(state => state);
   const [searchValue, setSearchValue] = useState("");
   const [musclesSelectValue, setMusclesSelectValue] = useState("");
 
@@ -14,6 +13,10 @@ export const ExercisesPage = () => {
     const lowerCase = e.target.value.toLowerCase();
     setSearchValue(lowerCase);
   };
+
+  useEffect(() => {
+    getExercises();
+  }, []);
 
   return (
     <MainLayout

@@ -247,9 +247,8 @@ export const useAuth = create<IAuthState>((set, get) => ({
       const response = (await getMeRequest()) as any;
 
       if (
-        !response.success &&
-        (response.message === "invalid signature" ||
-          response.message === "jwt malformed")
+        response.message === "invalid signature" ||
+        response.message === "jwt malformed"
       ) {
         set(state => ({
           isUserAuthorized: false,

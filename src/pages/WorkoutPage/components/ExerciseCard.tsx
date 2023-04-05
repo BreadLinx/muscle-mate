@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { FC, useState } from "react";
+import { FC, useState, useRef, useEffect } from "react";
 import { Flex } from "ui/Flex";
 import { IUserWorkoutExercise } from "types";
+import { useAuth, useExercises } from "store";
 
 interface StyledCardProps {
   checked?: boolean;
@@ -44,19 +45,43 @@ const StyledCardText = styled.p`
   text-align: left;
 `;
 
+const StyledTutorialLink = styled.a`
+  text-decoration: none;
+  font-size: 20px;
+  display: block;
+  width: max-content;
+  padding: 8px;
+  border-radius: 10px;
+  border: 2px solid #fff;
+  outline: none;
+  font-weight: 800;
+`;
+
 interface ExerciseCardProps {
   exercise: IUserWorkoutExercise;
 }
 
 export const ExerciseCard: FC<ExerciseCardProps> = ({ exercise }) => {
   const [checked, setChecked] = useState(false);
+  const linkRef = useRef<HTMLAnchorElement>(null);
+  const userExercises = useAuth(state => state.userExercises);
+  const exercises = useExercises(state => state.exercises);
 
   const exerciseString = `${exercise.repeats} sets of ${exercise.timesPerRepeat} reps, ${exercise.weight}kg + ${exercise.weightIncrease} each set`;
+
+  const fullExercise = userExercises.some(
+    item => item._id === exercise.exerciseId,
+  )
+    ? userExercises.find(item => item._id === exercise.exerciseId)
+    : exercises.find(item => item._id === exercise.exerciseId);
 
   return (
     <StyledCard
       checked={checked}
-      onClick={() => {
+      onClick={e => {
+        if (e.target === linkRef.current) {
+          return;
+        }
         setChecked(prev => !prev);
       }}
     >
@@ -65,6 +90,15 @@ export const ExerciseCard: FC<ExerciseCardProps> = ({ exercise }) => {
         <StyledCardTitle>{exercise.name}</StyledCardTitle>
         {!!exercise.repeats && (
           <StyledCardText>{exerciseString}</StyledCardText>
+        )}
+        {fullExercise?.tutorialLink && (
+          <StyledTutorialLink
+            ref={linkRef}
+            href={fullExercise.tutorialLink}
+            target="_blank"
+          >
+            Watch tutorial
+          </StyledTutorialLink>
         )}
       </Flex>
     </StyledCard>

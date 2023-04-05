@@ -13,6 +13,7 @@ import { ChooseExercisePage } from "pages/ChooseExercisePage";
 import { ResetPasswordPage } from "pages/ResetPasswordPage";
 import { ResetPasswordCodePage } from "pages/ResetPasswordCodePage";
 import { NotFoundPage } from "pages/NotFoundPage";
+import { LoadingPage } from "pages/LoadingPage";
 
 export {
   WorkoutsPage,
@@ -30,4 +31,5 @@ export {
   ResetPasswordPage,
   ResetPasswordCodePage,
   NotFoundPage,
+  LoadingPage,
 };

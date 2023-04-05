@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { FC } from "react";
 
 const rotation = keyframes`
 0% {
@@ -9,10 +10,16 @@ const rotation = keyframes`
 }
 `;
 
-const StyledLoader = styled.span`
+interface StyledLoaderProps {
+  loaderColor: "black" | "white";
+  loaderThickness: number;
+}
+
+const StyledLoader = styled.span<StyledLoaderProps>`
   height: 40%;
   aspect-ratio: 1 / 1;
-  border: 4px solid #000000;
+  border: ${({ loaderThickness }) => loaderThickness}px solid
+    ${({ loaderColor }) => (loaderColor === "black" ? "#000" : "#fff")};
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
@@ -20,6 +27,16 @@ const StyledLoader = styled.span`
   animation: ${rotation} 1s linear infinite;
 `;
 
-export const Loader = () => {
-  return <StyledLoader />;
+interface LoaderProps {
+  loaderColor?: "black" | "white";
+  loaderThickness?: number;
+}
+
+export const Loader: FC<LoaderProps> = ({
+  loaderColor = "black",
+  loaderThickness = 4,
+}) => {
+  return (
+    <StyledLoader loaderColor={loaderColor} loaderThickness={loaderThickness} />
+  );
 };
